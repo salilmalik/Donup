@@ -1,13 +1,24 @@
-var mongoose     = require('mongoose');
-mongoose.connect('mongodb://donupapp:kuchbhi77@ds039860.mongolab.com:39860/donup');
-var Schema       = mongoose.Schema;
-var bcrypt 		 = require('bcrypt-nodejs');
+var mongoose = require('mongoose');
+mongoose
+		.connect('mongodb://donupapp:kuchbhi77@ds039860.mongolab.com:39860/donup');
+var Schema = mongoose.Schema;
+var bcrypt = require('bcrypt-nodejs');
 
-// user schema 
-var UserSchema   = new Schema({
-	name: String,
-	username: { type: String, required: true, index: { unique: true }},
-	password: { type: String, required: true, select: false }
+// user schema
+var UserSchema = new Schema({
+	name : String,
+	username : {
+		type : String,
+		required : true,
+		index : {
+			unique : true
+		}
+	},
+	password : {
+		type : String,
+		required : true,
+		select : false
+	}
 });
 
 // hash the password before the user is saved
@@ -15,11 +26,13 @@ UserSchema.pre('save', function(next) {
 	var user = this;
 
 	// hash the password only if the password has been changed or user is new
-	if (!user.isModified('password')) return next();
+	if (!user.isModified('password'))
+		return next();
 
 	// generate the hash
 	bcrypt.hash(user.password, null, null, function(err, hash) {
-		if (err) return next(err);
+		if (err)
+			return next(err);
 
 		// change the password to the hashed version
 		user.password = hash;
