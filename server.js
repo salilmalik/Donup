@@ -30,8 +30,6 @@ app.use(function(req, res, next) {
 // log all requests to the console
 app.use(morgan('dev'));
 
-
-
 // set static files location
 // used for requests that our frontend will make
 app.use(express.static(__dirname + '/public'));
@@ -41,7 +39,7 @@ app.use(express.static(__dirname + '/public'));
 
 // API ROUTES ------------------------
 var apiRoutes = require('./app/routes/userapi')(app, express);
-app.use('/api', apiRoutes);
+app.use('/user', apiRoutes);
 
 // MAIN CATCHALL ROUTE ---------------
 // SEND USERS TO FRONTEND ------------
