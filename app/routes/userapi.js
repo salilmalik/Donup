@@ -61,9 +61,8 @@ module.exports = function(app, express) {
 
 		});
 	});
-	
-	apiRouter.route('/user')
 
+	apiRouter.route('/user')
 	// create a user (accessed at POST http://localhost:8080/user)
 	.post(function(req, res) {
 
@@ -153,8 +152,8 @@ module.exports = function(app, express) {
 
 	
 
+
 	// on routes that end in /user/:user_id
-	// ----------------------------------------------------
 	apiRouter.route('user/:user_id')
 
 	// get the user with that id
