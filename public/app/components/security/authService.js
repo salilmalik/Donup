@@ -1,4 +1,4 @@
-angular.module('authService', [])
+angular.module('donup')
 
  // ===================================================
  // auth factory to login and get information

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="donup">
 <head>
 <meta charset="UTF-8">
 <title>Donup</title>
@@ -16,21 +16,21 @@
 <script src="assets/js/angular.js"></script>
 <script src="assets/js/angular-route.min.js"></script>
 <script src="assets/js/angular-animate.min.js"></script>
-
-<!-- controllers -->
-<script src="app/components/user/userLoginController.js"></script>
-<script src="app/components/user/userRegisterController.js"></script>
-
+<script src="app/app.js"></script>
 <!-- services -->
-<script src="app/components/user/userLoginService.js"></script>
-<script src="app/components/user/userRegisterService.js"></script>
 <script src="app/components/security/authService.js"></script>
+<script src="app/services/userService.js"></script>
+<!-- controllers -->
+<script src="app/controllers/mainCtrl.js"></script>
+<script src="app/controllers/userCtrl.js"></script>
+
+<script src="app/app.route.js"></script>
+
+
 
 <!-- main Angular app files -->
-<script src="app/app.routes.js"></script>
-<script src="app/app.js"></script>
 </head>
-<body ng-app="donup" ng-controller="mainController as main">
+<body  >
 
 	<!-- NAVBAR -->
 	<header>
