@@ -14,11 +14,16 @@
 		templateUrl : 'app/home.html'
 	})
 	
-	// show all users
-	.when('/users', {
+	// User Registration 
+	.when('/register', {
 		controller : 'UserCtrl',
 		templateUrl : 'app/views/userRegister.html'
-	});
+	})
+        //User login
+    .when('/login', {
+        controller : 'UserCtrl',
+        templateUrl : 'app/views/userLogin.html'   
+    });
 
 	// get rid of the hash in the URL
 	$locationProvider.html5Mode(true);
