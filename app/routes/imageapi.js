@@ -1,4 +1,4 @@
-var bodyParser = require('body-parser');
+var bodyParser = require('body-parser'); 
 var fs = require("fs");
 var Img = require('../models/image');
 var multipart = require('connect-multiparty');
@@ -26,11 +26,11 @@ module.exports = function(app, express) {
 		image.img.contentType = 'image/png';
 		image.save(function(err, objectToInsert) {
 			if (err) {
-				console.log(err);
-				return res.json({
+					console.log(err);
+					return res.json({
 					success : false,
 					message : 'Image not saved. '
-				});
+					});
 			}
 			var objectId = objectToInsert._id;
 			console.log("objectId" + objectId);
@@ -46,34 +46,35 @@ module.exports = function(app, express) {
 		Img.findById(req.params.id, function(err, image) {
 			if (err)
 				res.send(err);
-			console.log("SEND BACK IMAGE: " + req.params.id);
+			console.log("SEND BACK IMAGE: "+req.params.id);
 			console.log(image.name);
 			// return that user
 			res.json(image);
 		});
 	})
 	apiRouter.route('/:id')
-	// update the points
+		// update the points
 	.put(function(req, res) {
 		Img.findById(req.params.id, function(err, image) {
-			if (err)
-				res.send(err);
-			console.log(image.points + "image.points");
-			// set the new user information if it exists in the request
-			image.points = image.points + 1;
-			// save the user
-			console.log(image.points + "image.points");
-			image.save(function(err) {
-				if (err)
-					res.send(err);
-				// return a message
-				res.json({
-					message : 'Points Upgraded'
-				});
-			});
+		if (err)
+		res.send(err);
+		console.log(image.points+"image.points");
+		// set the new user information if it exists in the request
+		image.points=image.points+1;
+		// save the user
+		console.log(image.points+"image.points");
+		image.save(function(err) {
+		if (err)
+		res.send(err);
+		// return a message
+		res.json({
+		message : 'Points Upgraded'
+		});
+		});
 
 		});
 	})
+	
 
 	return apiRouter;
 };

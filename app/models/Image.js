@@ -1,0 +1,12 @@
+var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
+
+// images schema
+var ImageSchema = new Schema({
+	userID: String,
+	name : String,
+	img: { data: Buffer, contentType: String },
+	points : { type: Number, default: 0 }
+});
+
+module.exports = mongoose.model('Image', ImageSchema);
