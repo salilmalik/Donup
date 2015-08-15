@@ -19,11 +19,10 @@
 	<script src="assets/js/ng-file-upload-shim.min.js"></script>
 	<script src="assets/js/angular.min.js"></script>
 	<script src="assets/js/ng-file-upload.min.js"></script>
-	<form class="signup form-horizontal" enctype="multipart/form-data">
+          
 		<div ng-app="fileUpload" ng-controller="MyCtrl">
-			{{result}} {{resultsize}}<input type="button" value="Submit"
-				ng-click="display()"></input> <img ng-src="{{result}}" />
-
+			<input type="button" value="Submit" ng-click="display()"></input>
+		  <img ng-src="data:image/png;base64,{{result}}"
 		</div>
 	</form>
 	<script>
@@ -34,16 +33,12 @@
 			$scope.display = function() {
 				return $http({
 					method : 'GET',
-					url : 'api/image/55be53591b7694600832233c',
-					headers : {
-						'Content-Type' : 'image/png'
-					},
+					url : 'api/image/55cf220a2b7378440aaab9f7',
+					headers : {'Content-Type' : 'application/json'},
 				
 				}).success(function(data, status, headers, config) {
-					$scope.resultsize = data.length;
-					console.log("HELLLLLLLLLLLLLOOOOOOOOOOOo" + data.length);
 					//success is the image binary,encoding it to base64 and bound to it
-					$scope.result = data
+					$scope.result = data;
 				})
 			};
 		});

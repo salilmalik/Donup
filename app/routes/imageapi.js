@@ -17,13 +17,15 @@ module.exports = function(app, express) {
 		var file = req.files.file;
 		console.log(file.name);
 		console.log("FILE PATH" + file.path);
+				console.log("FILE" + file);
+			console.log("FILE TYPEE" + file.type);
 		console.log(file);
 		var image = new Img();
 		image.name = file.name;
 		console.log(image.name);
 		image.userID = req.body.userID
 		image.img.data = fs.readFileSync(file.path);
-		image.img.contentType = 'image/png';
+		image.img.contentType = file.type;
 		image.save(function(err, objectToInsert) {
 			if (err) {
 					console.log(err);
@@ -49,7 +51,7 @@ module.exports = function(app, express) {
 			console.log("SEND BACK IMAGE: "+req.params.id);
 			console.log(image.name);
 			// return that user
-			res.json(image);
+			res.json(new Buffer(image.img.data).toString('base64'));
 		});
 	})
 	apiRouter.route('/:id')
