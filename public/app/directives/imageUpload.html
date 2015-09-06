@@ -1,0 +1,11 @@
+<form class="signup form-horizontal" enctype="multipart/form-data">
+<div>
+    <div ngf-drop ngf-select ngf-multiple="true" ng-model="files" class="drop-box" 
+        ngf-drag-over-class="dragover" ngf-multiple="true" ngf-allow-dir="true"
+        ngf-accept="'image/*,application/pdf'">Drop or Click</div>
+    <div ngf-no-file-drop>File Drag/Drop is not supported for this browser</div>
+    <div ng-repeat="imageFile in files">
+    <img class="image-display" ngf-src="imageFile" ngf-default-src="'/thumb.jpg'" ngf-accept="'image/*'">
+    </div>    
+</div>
+</form> 

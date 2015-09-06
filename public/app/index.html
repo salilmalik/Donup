@@ -16,13 +16,26 @@
 <script src="assets/js/angular.js"></script>
 <script src="assets/js/angular-route.min.js"></script>
 <script src="assets/js/angular-animate.min.js"></script>
-<script src="app/app.js"></script>
+<script src="assets/js/angular-cookies.js"></script>    
+<script src="assets/js/ui-bootstrap-tpls-0.13.3.min.js"></script>
+<script src="assets/js/ng-file-upload.min.js"></script>
+<script src="assets/js/ng-file-upload-shim.min.js"></script>     
+<!--File Upload -->    
+<script src="assets/js/ng-file-upload.min.js"></script> 
+<script src="assets/js/ng-file-upload-shim.min.js"></script> 
+    
+<script src="app/app.js"></script>  
 <!-- services -->
 <script src="app/components/security/authService.js"></script>
 <script src="app/services/userService.js"></script>
+<!-- directives -->
+<script src="app/directives/imageDirective.js"></script>    
 <!-- controllers -->
-<script src="app/controllers/mainCtrl.js"></script>
+<script src="app/controllers/headerCtrl.js"></script>    
+<script src="app/controllers/homeCtrl.js"></script>
 <script src="app/controllers/userCtrl.js"></script>
+<script src="app/controllers/landingCtrl.js"></script>
+<script src="app/controllers/wallCtrl.js"></script>
 
 <script src="app/app.route.js"></script>
 
@@ -30,28 +43,29 @@
 
 <!-- main Angular app files -->
 </head>
-<body  >
+<body >
 
 	<!-- NAVBAR -->
-	<header>
+	<header ng-controller="HeaderCtrl">
+        
 		<div class="navbar navbar-inverse">
 			<div class="container">
 				<div class="navbar-header">
 					<a href="/" class="navbar-brand">DONUP</a>
 				</div>
 				<ul class="nav navbar-nav">
-					<li><a href="/register"> Users</a></li>
+					<li><a href="/home"> Home</a></li>
+                    <li><a href="/wall">The Wall</a></li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
-					<li ng-if="!main.loggedIn"><a href="/login">Login</a></li>
-					<li ng-if="main.loggedIn" class="navbar-text">Hello {{
-						main.user.username }}!</li>
-					<li ng-if="main.loggedIn"><a href="#"
-						ng-click="main.doLogout()">Logout</a></li>
+					<li ng-show="loggedInUserToken == undefined"><a href="/login">Login</a></li>
+					<li ng-show="loggedInUserToken != undefined" class="navbar-text">Hello {{loggedInUsername }}!</li>
+					<li ng-show="loggedInUserToken != undefined"><a href="#"
+						ng-click="logoutUser()">Logout</a></li>
 				</ul>
 			</div>
 		</div>
-	</header>
+	</header>    
 
 	<main class="container"> <!-- ANGULAR VIEWS -->
 	<div ng-view></div>

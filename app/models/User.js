@@ -1,6 +1,5 @@
 var mongoose = require('mongoose');
-mongoose
-		.connect('mongodb://donupapp:kuchbhi77@ds039860.mongolab.com:39860/donup');
+mongoose.connect('mongodb://donupapp:kuchbhi77@ds039860.mongolab.com:39860/donup');
 var Schema = mongoose.Schema;
 var bcrypt = require('bcrypt-nodejs');
 

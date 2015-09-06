@@ -7,22 +7,23 @@
         $httpProvider.interceptors.push('AuthInterceptor');
         
         $routeProvider
-
+    .when('/wall',{
+        controller:'WallCtrl',
+        templateUrl:'app/views/wall.html'    
+        })  
+    .when('/',{
+        controller:'LandingCtrl',
+        templateUrl:'app/views/landing.html'    
+    })    
 	// home page route
-	.when('/', {
-		controller : 'MainCtrl',
-		templateUrl : 'app/home.html'
-	})
-	
-	// User Registration 
-	.when('/register', {
-		controller : 'UserCtrl',
-		templateUrl : 'app/views/userRegister.html'
-	})
-        //User login
+	.when('/home', {
+		controller : 'HomeCtrl',
+		templateUrl : 'app/views/home.html'
+	})	
+    //User login & Register
     .when('/login', {
         controller : 'UserCtrl',
-        templateUrl : 'app/views/userLogin.html'   
+        templateUrl : 'app/views/userLoginRegister.html'   
     });
 
 	// get rid of the hash in the URL
