@@ -1,7 +1,7 @@
   (function(){
 	  'use strict';
 	    var app = angular.module('donup');
-    app.controller('UserCtrl',['$scope','UserService','$location','$cookies',function($scope,userService,$location,$cookies){
+         app.controller('UserCtrl',['$scope','UserService','$location','$cookies',function($scope,userService,$location,$cookies){
         //Models    
         $scope.user = {};
         $scope.isUserRegistered = false;
@@ -14,6 +14,8 @@
             userService.registerUser($scope.user).success(function(data) {
 				if(data.message == 'User created!'){
 					$scope.isUserRegistered = true;
+                    alert("Successfully Registered. Please login.");
+                    $location.path('/');
 				}
 				$scope.message=data.message;
                 $scope.user = {};
@@ -27,16 +29,15 @@
 				if(data.success == true){
                     $cookies.put('usertoken',data.token);
                     $cookies.put('username',$scope.user.username);
+                    $scope.message = data.message;
+                    $scope.dataLoading = false;
                     $location.path('/');
 				}
                 $scope.message = data.message;
-                $scope.user = {};
+                $scope.user.password='';
                 $scope.dataLoading = false;
             });
         }
         
-        $scope.logoutUser = function(){
-        
-        }
     }]);
   })();

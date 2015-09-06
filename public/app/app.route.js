@@ -23,7 +23,11 @@
     //User login & Register
     .when('/login', {
         controller : 'UserCtrl',
-        templateUrl : 'app/views/userLoginRegister.html'   
+        templateUrl : 'app/views/login.html'   
+    }) 
+    .when('/register', {
+        controller : 'UserCtrl',
+        templateUrl : 'app/views/register.html'   
     });
 
 	// get rid of the hash in the URL

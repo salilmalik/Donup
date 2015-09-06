@@ -13,7 +13,6 @@ module.exports = function(app, express) {
 	// route to authenticate a user (POST
 	// http://localhost:8080/user/login)
 	apiRouter.post('/login', function(req, res) {
-
 		// find the user
 		User.findOne({
 			username : req.body.username
@@ -21,12 +20,12 @@ module.exports = function(app, express) {
 
 			if (err)
 				throw err;
-
 			// no user with that username was found
 			if (!user) {
 				res.json({
 					success : false,
-					message : 'Authentication failed. User not found.'
+					message : 'Authentication failed. User not found.',
+					returnCode:'1'
 				});
 			} else if (user) {
 
@@ -35,7 +34,8 @@ module.exports = function(app, express) {
 				if (!validPassword) {
 					res.json({
 						success : false,
-						message : 'Authentication failed. Wrong password.'
+						message : 'Authentication failed. Wrong password.',
+						returnCode:'2'
 					});
 				} else {
 
@@ -53,6 +53,7 @@ module.exports = function(app, express) {
 					res.json({
 						success : true,
 						message : 'Enjoy your token!',
+						returnCode:'3',
 						token : token
 					});
 				}
