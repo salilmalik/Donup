@@ -32,6 +32,8 @@
 <script src="app/controllers/userCtrl.js"></script>
 <script src="app/controllers/landingCtrl.js"></script>
 <script src="app/controllers/wallCtrl.js"></script>
+<script src="app/controllers/forgotPasswordCtrl.js"></script>
+<script src="app/controllers/profileCtrl.js"></script>
 
 <script src="app/app.route.js"></script>
 <!-- main Angular app files -->
@@ -53,8 +55,9 @@
 				<ul class="nav navbar-nav navbar-right">
 					<li ng-show="loggedInUserToken == undefined"><a href="/login">Login</a></li>
 					<li ng-show="loggedInUserToken == undefined"><a href="/register">Register</a></li>
-					<li ng-show="loggedInUserToken != undefined" class="navbar-text">Hello {{loggedInUsername }}!</li>
-					<li ng-show="loggedInUserToken != undefined"><a href="#"
+					<li ng-show="loggedInUserToken != undefined"><a href='/profile'>
+						Hello {{loggedInUsername }}!</a></li>
+					<li ng-show="loggedInUserToken != undefined"><a href="/"
 						ng-click="logoutUser()">Logout</a></li>
 				</ul>
 			</div>

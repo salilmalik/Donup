@@ -28,8 +28,19 @@
     .when('/register', {
         controller : 'UserCtrl',
         templateUrl : 'app/views/register.html'   
+    })
+    .when('/forgotPassword', {
+        controller : 'ForgotPasswordCtrl',
+        templateUrl : 'app/views/forgotPassword.html'   
+    })
+    .when('/profile', {
+        controller : 'ProfileCtrl',
+        templateUrl : 'app/views/profile.html'   
+    })
+    .when('/', {
+        controller : 'LandingCtrl',
+        templateUrl : 'app/views/landing.html'   
     });
-
 	// get rid of the hash in the URL
 	$locationProvider.html5Mode(true);
     });
