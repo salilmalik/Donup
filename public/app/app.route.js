@@ -40,6 +40,10 @@
     .when('/', {
         controller : 'LandingCtrl',
         templateUrl : 'app/views/landing.html'   
+    })
+      .when('/changePassword', {
+        controller : 'changePasswordCtrl',
+        templateUrl : 'app/views/changePassword.html'   
     });
 	// get rid of the hash in the URL
 	$locationProvider.html5Mode(true);
