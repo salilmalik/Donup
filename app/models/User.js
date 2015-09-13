@@ -17,7 +17,10 @@ var UserSchema = new Schema({
 		type : String,
 		required : true,
 		select : false
-	}
+	},
+	resetPasswordToken: String,
+	resetPasswordExpires: Date,
+	confirmed:  Boolean
 });
 
 // hash the password before the user is saved

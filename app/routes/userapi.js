@@ -2,6 +2,9 @@ var bodyParser = require('body-parser'); // get body-parser
 var User = require('../models/user');
 var jwt = require('jsonwebtoken');
 var config = require('../../config');
+var async = require('async');
+var crypto = require("crypto");
+var nodemailer = require('nodemailer');
 
 // super secret for creating tokens
 var superSecret = config.secret;
@@ -75,7 +78,14 @@ module.exports = function(app, express) {
 		// from the request)
 		user.password = req.body.password; // set the users password (comes
 		// from the request)
-
+		user.confirmed='false';
+		
+		if (req.body.password!=req.body.confirmPassword){
+			return res.json({
+						success : false,
+						message : 'Password and confirm password do not match.'
+					});
+		}
 		user.save(function(err) {
 			if (err) {
 				// duplicate entry
@@ -107,6 +117,66 @@ module.exports = function(app, express) {
 			res.json(users);
 		});
 	});
+
+
+apiRouter.post('/forgotPassword', function(req, res, next) {
+  async.waterfall([
+    function(done) {
+      crypto.randomBytes(20, function(err, buf) {
+        var token = buf.toString('hex');
+        done(err, token);
+      });
+    },
+    function(token, done) {
+      User.findOne({ username: req.body.username }, function(err, user) {
+        if (!user) {
+        res.json({
+					success : false,
+					message : 'No user with given username found.',
+					returnCode:'1'
+				});
+        }
+        user.resetPasswordToken = token;
+        user.resetPasswordExpires = Date.now() + 3600000; // 1 hour
+        
+        user.save(function(err) {
+          done(err, token, user);
+        });
+      });
+    },
+    function(token, user, done) {
+      var smtpTransport = nodemailer.createTransport({
+        service: 'Yahoo',
+        auth: {
+          user: 'donupapp@yahoo.com',
+          pass: 'kuchbhi77'
+        }
+      });
+      var mailOptions = {
+        to: 'salilmalik92@gmail.com',
+        from: 'donupapp@yahoo.com',
+        subject: 'Node.js Password Reset',
+        text: 'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
+          'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
+          'http://' + req.headers.host + '/forgotPassword/' + token + '\n\n' +
+          'If you did not request this, please ignore this email and your password will remain unchanged.\n'
+      };
+      smtpTransport.sendMail(mailOptions, function(err) {
+       if(err){
+        return console.log(err);
+    }
+        done(err, 'done');
+      });
+    }
+  ], function(err) {
+    if (err) {
+console.log(err);
+    	return next(err);
+    }
+   console.log("Mail sent");
+  });
+});
+
 
 	// route middleware to verify a token
 	apiRouter.use(function(req, res, next) {
@@ -210,6 +280,8 @@ module.exports = function(app, express) {
 	apiRouter.get('/me', function(req, res) {
 		res.send(req.decoded);
 	});
+	
+
 
 	return apiRouter;
 };

@@ -29,9 +29,13 @@
         controller : 'UserCtrl',
         templateUrl : 'app/views/register.html'   
     })
-    .when('/forgotPassword', {
+    .when('/forgotPassword/', {
         controller : 'ForgotPasswordCtrl',
         templateUrl : 'app/views/forgotPassword.html'   
+    })
+    .when('/resetPassword/:param', {
+        controller : 'ResetPasswordCtrl',
+        templateUrl : 'app/views/resetPassword.html'   
     })
     .when('/profile', {
         controller : 'ProfileCtrl',

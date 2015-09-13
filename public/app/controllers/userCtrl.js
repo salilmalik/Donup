@@ -18,6 +18,7 @@
                     $location.path('/');
 				}
 				$scope.message=data.message;
+                alert($scope.message);
                 $scope.user = {};
                 $scope.dataLoading = false;
             });
