@@ -32,7 +32,7 @@
                     $cookies.put('username',$scope.user.username);
                     $scope.message = data.message;
                     $scope.dataLoading = false;
-                    $location.path('/');
+                    $location.path('/home');
 				}
                 $scope.message = data.message;
                 $scope.user.password='';

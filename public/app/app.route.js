@@ -45,10 +45,27 @@
         controller : 'LandingCtrl',
         templateUrl : 'app/views/landing.html'   
     })
-      .when('/changePassword', {
-        controller : 'changePasswordCtrl',
+    .when('/aboutUs', {
+        templateUrl : 'app/views/aboutUs.html'   
+    })
+    .when('/faq', {
+        templateUrl : 'app/views/faq.html'   
+    })
+    .when('/terms', {
+        templateUrl : 'app/views/terms.html'   
+    })
+    .when('/contactUs', {
+        templateUrl : 'app/views/contactUs.html'   
+    })
+    .when('/displayImage', {
+        controller : 'DisplayImageCtrl',
+        templateUrl : 'app/views/displayImage.html'     
+    })
+    .when('/changePassword', {
+        controller : 'ChangePasswordCtrl',
         templateUrl : 'app/views/changePassword.html'   
     });
+    
 	// get rid of the hash in the URL
 	$locationProvider.html5Mode(true);
     });
