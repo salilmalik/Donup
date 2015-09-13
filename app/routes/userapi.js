@@ -158,7 +158,7 @@ apiRouter.post('/forgotPassword', function(req, res, next) {
         subject: 'Node.js Password Reset',
         text: 'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
           'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
-          'http://' + req.headers.host + '/forgotPassword/' + token + '\n\n' +
+          'http://' + req.headers.host + '/resetPassword/' + token + '\n\n' +
           'If you did not request this, please ignore this email and your password will remain unchanged.\n'
       };
       smtpTransport.sendMail(mailOptions, function(err) {
@@ -177,6 +177,53 @@ console.log(err);
   });
 });
 
+apiRouter.post('/resetPassword/:resetPasswordToken', function(req, res, next) {
+	console.log("resetPasswordToken"+req.params.resetPasswordToken);
+	console.log("req.body.password"+req.body.password);
+	User.findOne({
+			resetPasswordToken : req.params.resetPasswordToken
+		}).select('username').exec(function(err, user) {
+  
+			if (err){
+				console.log("error :"+err);
+				res.send(err);
+		}
+		if (!user) {
+				res.json({
+					success : false,
+					message : 'Not a valid link.',
+					returnCode:'1'
+		})
+		}
+		if (user) {
+			console.log(user);
+			
+			if (req.body.name)
+				user.name = req.body.name;
+			if (req.body.username)
+				user.username = req.body.username;
+			if (req.body.password)
+				user.password = req.body.password;
+
+			// save the user
+			user.save(function(err) {
+				if (err)
+					res.send(err);
+
+				// return a message
+				res.json({
+					message : 'Password reset'
+				});
+			});
+
+			res.json({
+			success : true,
+			message : 'Reset password token validated!',
+			returnCode:'1'
+			});
+		}
+		});
+});
 
 	// route middleware to verify a token
 	apiRouter.use(function(req, res, next) {
