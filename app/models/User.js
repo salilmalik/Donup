@@ -19,6 +19,7 @@ var UserSchema = new Schema({
 		select : false
 	},
 	resetPasswordToken: String,
+	confirmEmailToken:String,
 	resetPasswordExpires: Date,
 	confirmed:  Boolean
 });

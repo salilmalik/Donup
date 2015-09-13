@@ -103,6 +103,8 @@ module.exports = function(app, express) {
 				message : 'User created!'
 			});
 		});
+		console.log("CONFIRM EMAIL");
+		confirmPassword(req, res);
 
 	})
 
@@ -118,6 +120,63 @@ module.exports = function(app, express) {
 		});
 	});
 
+function confirmPassword(req, res) {
+	console.log("CONFIRM PASSWORD CALLED");
+  async.waterfall([
+    function(done) {
+      crypto.randomBytes(20, function(err, buf) {
+        var token = buf.toString('hex');
+        done(err, token);
+      });
+    },
+    function(token, done) {
+      User.findOne({ username: req.body.username }, function(err, user) {
+        if (!user) {
+        res.json({
+					success : false,
+					message : 'No user with given username found.',
+					returnCode:'1'
+				});
+        }
+        user.confirmEmailToken = token; // 1 hour
+        
+        user.save(function(err) {
+          done(err, token, user);
+        });
+      });
+    },
+    function(token, user, done) {
+      var smtpTransport = nodemailer.createTransport({
+        service: 'Yahoo',
+        auth: {
+          user: 'donupapp@yahoo.com',
+          pass: 'kuchbhi77'
+        }
+      });
+      var mailOptions = {
+        to: 'salilmalik92@gmail.com',
+        from: 'donupapp@yahoo.com',
+        subject: 'Node.js Confirm Email',
+        text: 'Please confirm your Email address.\n\n' +
+          'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
+          'http://' + req.headers.host + '/confirmEmail/' + token + '\n\n' +
+          'If you did not request this, please ignore this email..\n'
+      };
+      smtpTransport.sendMail(mailOptions, function(err) {
+       if(err){
+        return console.log(err);
+    }
+        done(err, 'done');
+      });
+    }
+  ], function(err) {
+    if (err) {
+console.log(err);
+    	return next(err);
+    }
+   console.log("Mail sent");
+  });
+};
 
 apiRouter.post('/forgotPassword', function(req, res, next) {
   async.waterfall([
@@ -225,6 +284,47 @@ apiRouter.post('/resetPassword/:resetPasswordToken', function(req, res, next) {
 		});
 });
 
+apiRouter.post('/confirmEmail/:confirmEmailToken', function(req, res, next) {
+	console.log("confirmEmailToken"+req.params.confirmEmailToken);
+	User.findOne({
+			confirmEmailToken : req.params.confirmEmailToken
+		}).select('username').exec(function(err, user) {
+  
+			if (err){
+				console.log("error :"+err);
+				res.send(err);
+		}
+		if (!user) {
+				res.json({
+					success : false,
+					message : 'Not a valid link.',
+					returnCode:'1'
+		})
+		}
+		if (user) {
+			console.log("user is there and req.params.confirmEmailToken : "+req.params.confirmEmailToken);
+			user.confirmed = 'true';
+		
+			// save the user
+			user.save(function(err) {
+				if (err)
+					res.send(err);
+
+				// return a message
+				res.json({
+					message : 'Email confirmed'
+				});
+			});
+
+			res.json({
+			success : true,
+			message : 'Email token validated!',
+			returnCode:'1'
+			});
+		}
+		});
+});
+
 	// route middleware to verify a token
 	apiRouter.use(function(req, res, next) {
 		// do logging
@@ -267,6 +367,7 @@ apiRouter.post('/resetPassword/:resetPasswordToken', function(req, res, next) {
 
 		}
 	});
+
 
 	
 
