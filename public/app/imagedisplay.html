@@ -33,12 +33,18 @@
 			$scope.display = function() {
 				return $http({
 					method : 'GET',
-					url : 'api/image/55cf220a2b7378440aaab9f7',
+					url : 'api/image/55ebe4d12368a56826866065',
 					headers : {'Content-Type' : 'application/json'},
 				
 				}).success(function(data, status, headers, config) {
 					//success is the image binary,encoding it to base64 and bound to it
-					$scope.result = data;
+					alert("Calculated");
+					 $scope.result=data.dataImage;
+          alert("$scope.result"+ JSON.stringify(data));
+          var imgdatas=String.fromCharCode.apply(this,data.image.img.data.data);
+          alert(imgdatas);
+          console.log(imgdatas);
+          $scope.result=imgdatas;
 				})
 			};
 		});
