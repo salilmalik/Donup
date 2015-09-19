@@ -9,7 +9,7 @@ app.factory('UserService',['$http',function($http){
     function registerUser (user){
         return $http({
             method: 'POST',
-            url: 'http://localhost:8080/api/user',
+            url: '/api/user',
             data: user
         })
     };
@@ -17,7 +17,7 @@ app.factory('UserService',['$http',function($http){
     function loginUser (user){
         return $http({
             method: 'POST',
-            url: 'http://localhost:8080/api/login',
+            url: '/api/login',
             data: user
         })
     };

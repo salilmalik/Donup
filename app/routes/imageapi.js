@@ -76,6 +76,18 @@ module.exports = function(app, express) {
 
 		});
 	})
+        apiRouter.route('/getUserImages/:userId')
+	// get the image with that id
+	.get(function(req, res) {
+        Img.find({"userID": req.params.userId},function(err, imageList) {
+			if (err)
+				res.send(err);
+			console.log("SEND BACK IMAGE: "+req.params.id);
+			console.log(image.name);
+			// return that user
+			res.json(new Buffer(image.img.data).toString('base64'));
+		});
+	})
 	
 
 	return apiRouter;

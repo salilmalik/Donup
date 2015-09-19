@@ -7,7 +7,8 @@ app.directive('imageUpload',function () {
         scope:{
                 files : '='
         }, 
-        controller: ['$scope', 'Upload','$timeout', function ($scope, Upload,$timeout) {
+        controller: ['$scope', 'Upload','$timeout','ImageService', function ($scope, Upload,$timeout,imageService) {
+            $scope.images={};
             $scope.$watch('files', function () {
             $scope.upload($scope.files);
 		    $scope.userID='hello';
@@ -33,6 +34,13 @@ app.directive('imageUpload',function () {
                     }
                 }
             };
+            $scope.getUserImages = function(userId){
+                userId ="hello";
+                imageService.getUserImages(userId).success(function(data){
+                    $scope.images = data;
+                })
+            }
+            
             }]
         };
     });

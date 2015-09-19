@@ -6,6 +6,10 @@
     <div ngf-no-file-drop>File Drag/Drop is not supported for this browser</div>
     <div ng-repeat="imageFile in files">
     <img class="image-display" ngf-src="imageFile" ngf-default-src="'/thumb.jpg'" ngf-accept="'image/*'">
-    </div>    
+    </div>
+    <div>
+        <div ng-click="getUserImages('55ebe4d12368a56826866065')">Click to get image</div>
+        <img data-ng-src="data:image/png;base64,{{image}}">
+    </div>
 </div>
 </form> 

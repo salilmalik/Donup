@@ -212,7 +212,7 @@ apiRouter.post('/forgotPassword', function(req, res, next) {
         }
       });
       var mailOptions = {
-        to: 'salilmalik92@gmail.com',
+        to: 'syal.anuj@gmail.com',
         from: 'donupapp@yahoo.com',
         subject: 'Node.js Password Reset',
         text: 'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
