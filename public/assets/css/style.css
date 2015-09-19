@@ -1,4 +1,4 @@
- body                          { padding-top:50px; }
+ body                          
 #content-views                { position:relative; }
 .ng-enter, .ng-leave          { width:100%; position:absolute; }
 .ng-enter                     { 
