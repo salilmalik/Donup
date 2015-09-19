@@ -53,16 +53,9 @@ module.exports = function(app, express) {
 
 			}
 			if(image){
-	console.log("NOT FOUND");
-	
-		
-			console.log("SEND BACK IMAGE: "+req.params.id);
-			console.log(image);
-			console.log(image.name);
-			// return that user
-			res.json(new Buffer(image.img.data).toString('base64'));
+			image.img.data=new Buffer(image.img.data).toString('base64');
+			res.json(image);
 			}});
-		});
 	})
 	apiRouter.route('/:id')
 		// update the points
