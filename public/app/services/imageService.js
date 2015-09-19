@@ -14,6 +14,7 @@ app.factory('ImageService',['$http',function($http,$scope){
         return $http({
             method: 'GET',
             url: '/api/image/getUserImages'+userId,
+            url: '/api/image/getUserImages/'+userId,
         })
 
 };

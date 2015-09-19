@@ -38,6 +38,10 @@ app.directive('imageUpload',function () {
                 userId ="hello";
                 imageService.getUserImages(userId).success(function(data){
                     $scope.images = data;
+                    angular.forEach($scope.images, function(image, key){
+                        image.img = new Buffer(image.img.data).toString('base64')
+                    
+                    });
                 })
             }
             

@@ -10,6 +10,9 @@
     <div>
         <div ng-click="getUserImages('55ebe4d12368a56826866065')">Click to get image</div>
         <img data-ng-src="data:image/png;base64,{{image}}">
+        <ul>
+        <li ng-repeat="image in images"><img data-ng-src="data:image/png;base64,{{image}}"></li>
+        </ul>
     </div>
 </div>
 </form> 

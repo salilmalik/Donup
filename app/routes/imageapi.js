@@ -58,9 +58,11 @@ module.exports = function(app, express) {
 		
 			console.log("SEND BACK IMAGE: "+req.params.id);
 			console.log(image);
+			console.log(image.name);
 			// return that user
 			res.json(new Buffer(image.img.data).toString('base64'));
 			}});
+		});
 	})
 	apiRouter.route('/:id')
 		// update the points
@@ -94,6 +96,10 @@ module.exports = function(app, express) {
 			console.log(image.name);
 			// return that user
 			res.json(new Buffer(image.img.data).toString('base64'));
+			console.log("Images of UserID: "+req.params.userId);
+			console.log("returned image");
+			// new Buffer(image.img.data).toString('base64')
+			res.json(imageList);
 		});
 	})
 	
