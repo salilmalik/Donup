@@ -10,7 +10,10 @@ displayImage();
              alert("Display Image Controller called 2.");
          $scope.dataLoading = true;
          imageService.displayImage($scope.user).success(function(data) {
+
           $scope.result=data;
+          alert("$scope.result"+$scope.result);
+          console.log(JSON.stringify($scope.result));
             });
         }
 

@@ -53,7 +53,7 @@ app.use('/api', apiRoutes);
 // SEND USERS TO FRONTEND ------------
 // has to be registered after API ROUTES
 app.get('*', function(req, res) {
-	res.sendFile(path.join(__dirname + '/public/app/index.html'));
+	res.sendFile(path.join(__dirname + '/public/app/imagedisplay.html'));
 });
 
 // START THE SERVER
