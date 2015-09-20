@@ -5,6 +5,8 @@ var multipart = require('connect-multiparty');
 var multipartMiddleware = multipart();
 var jwt = require('jsonwebtoken');
 var config = require('../../config');
+var mkdirp = require('mkdirp');
+var crypto = require("crypto");
 
 module.exports = function(app, express) {
 
@@ -17,15 +19,30 @@ module.exports = function(app, express) {
 		var file = req.files.file;
 		console.log(file.name);
 		console.log("FILE PATH" + file.path);
-				console.log("FILE" + file);
-			console.log("FILE TYPEE" + file.type);
+		console.log("FILE" + file);
+		console.log("FILE TYPEE" + file.type);
 		console.log(file);
 		var image = new Img();
 		image.name = file.name;
 		console.log(image.name);
-		image.userID = req.body.userID
-		image.img.data = fs.readFileSync(file.path);
-		image.img.contentType = file.type;
+		image.userID = req.body.userID;
+		
+		var newPath = './public/uploads/';
+		var imagePath=newPath+crypto.randomBytes(12).toString('hex')+file.name;
+		mkdirp(newPath, function (err) {
+  		  if (err) console.error(err)
+  		  });
+		console.log('folder created at '+newPath);
+		fs.readFile(file.path, function (err, data) {
+  		fs.writeFile(imagePath, data, function (err) {
+  			if(err){
+  				throw err;
+  			}
+  		});
+  		console.log("imagePath: "+imagePath);
+		});
+		image.img= imagePath;
+		console.log("image.img"+image.img);
 		image.save(function(err, objectToInsert) {
 			if (err) {
 					console.log(err);
@@ -53,7 +70,6 @@ module.exports = function(app, express) {
 
 			}
 			if(image){
-			image.img.data=new Buffer(image.img.data).toString('base64');
 			res.json(image);
 			}});
 	})
@@ -87,8 +103,7 @@ module.exports = function(app, express) {
 				res.send(err);
 			console.log("SEND BACK IMAGE: "+req.params.id);
 			console.log(image.name);
-			// return that user
-			res.json(new Buffer(image.img.data).toString('base64'));
+		
 			console.log("Images of UserID: "+req.params.userId);
 			console.log("returned image");
 			// new Buffer(image.img.data).toString('base64')

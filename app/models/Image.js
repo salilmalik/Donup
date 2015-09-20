@@ -5,7 +5,8 @@ var Schema = mongoose.Schema;
 var ImageSchema = new Schema({
 	userID: String,
 	name : String,
-	img: { data: Buffer, contentType: String },
+	img: String,
+	imgtn: String,
 	points : { type: Number, default: 0 }
 });
 

@@ -22,7 +22,7 @@
           
 		<div ng-app="fileUpload" ng-controller="MyCtrl">
 			<input type="button" value="Submit" ng-click="display()"></input>
-		  <img ng-src="data:image/png;base64,{{result}}"
+		   <img ng-src="{{result}}"></img>
 		</div>
 	</form>
 	<script>
@@ -33,13 +33,13 @@
 			$scope.display = function() {
 				return $http({
 					method : 'GET',
-					url : 'api/image/55ebe4d12368a56826866065',
+					url : 'api/image/55fe76da8f5c8bac1c91a4f7',
 					headers : {'Content-Type' : 'application/json'},
 				
 				}).success(function(data, status, headers, config) {
-					//success is the image binary,encoding it to base64 and bound to it
-					 var imgdatas=String.fromCharCode.apply(this,data.img.data.data);
-         			  $scope.result=imgdatas;
+					$scope.result=data;
+					console.log($scope.result);
+					$scope.result=$scope.result.img.substring(8);
 				})
 			};
 		});
