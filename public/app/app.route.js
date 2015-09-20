@@ -57,9 +57,17 @@
     .when('/contactUs', {
         templateUrl : 'app/views/contactUs.html'   
     })
-    .when('/displayImage', {
+    .when('/displayImage/:param', {
         controller : 'DisplayImageCtrl',
-        templateUrl : 'app/views/displayImage.html'     
+        templateUrl : 'app/views/displayImage.html',
+          resolve: {
+      // I will cause a 1 second delay
+      delay: function($q, $timeout) {
+        var delay = $q.defer();
+        $timeout(delay.resolve, 1000);
+        return delay.promise;
+      }
+    }  
     })
     .when('/changePassword', {
         controller : 'ChangePasswordCtrl',

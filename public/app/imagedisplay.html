@@ -22,7 +22,8 @@
           
 		<div ng-app="fileUpload" ng-controller="MyCtrl">
 			<input type="button" value="Submit" ng-click="display()"></input>
-		   <img ng-src="{{result}}"></img>
+		   <img ng-src="{{img}}"></img>
+		   <img ng-src="{{imgtn}}"></img>
 		</div>
 	</form>
 	<script>
@@ -33,13 +34,14 @@
 			$scope.display = function() {
 				return $http({
 					method : 'GET',
-					url : 'api/image/55fe76da8f5c8bac1c91a4f7',
+					url : 'api/image/55fe8c75e3e553e422615d10',
 					headers : {'Content-Type' : 'application/json'},
 				
 				}).success(function(data, status, headers, config) {
-					$scope.result=data;
-					console.log($scope.result);
-					$scope.result=$scope.result.img.substring(8);
+					$scope.image=data;
+					console.log($scope.image);
+					$scope.img=$scope.image.img.substring(8);
+					$scope.imgtn=$scope.image.imgtn.substring(8);
 				})
 			};
 		});
