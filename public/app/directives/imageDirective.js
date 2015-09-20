@@ -44,6 +44,11 @@ app.directive('imageUpload',function () {
                     });
                 })
             }
+            $scope.getImageFromBinary = function(imageData){
+                //success is the image binary,encoding it to base64 and bound to it
+                var image=String.fromCharCode.apply(this,imageData);
+                return image;
+            }
             
             }]
         };

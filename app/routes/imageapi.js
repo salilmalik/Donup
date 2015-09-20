@@ -107,6 +107,15 @@ module.exports = function(app, express) {
 			console.log("Images of UserID: "+req.params.userId);
 			console.log("returned image");
 			// new Buffer(image.img.data).toString('base64')
+            if(!imageList){
+	           console.log("NOT FOUND");
+            }
+            if(imageList){
+            console.log("RETURNED IMAGE");
+            imageList.forEach(function(image){
+            image.img.data=new Buffer(image.img.data).toString('base64');
+            });
+			}
 			res.json(imageList);
 		});
 	})

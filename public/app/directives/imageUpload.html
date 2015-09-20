@@ -9,9 +9,11 @@
     </div>
     <div>
         <div ng-click="getUserImages('55ebe4d12368a56826866065')">Click to get image</div>
+        <div ng-click="getUserImages('hello')">Click to get image</div>
         <img data-ng-src="data:image/png;base64,{{image}}">
         <ul>
         <li ng-repeat="image in images"><img data-ng-src="data:image/png;base64,{{image}}"></li>
+        <li ng-repeat="image in images"><img data-ng-src="data:image/png;base64,{{getImageFromBinary(image.img.data.data)}}"></li>
         </ul>
     </div>
 </div>

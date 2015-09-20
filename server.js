@@ -54,6 +54,7 @@ app.use('/api', apiRoutes);
 // has to be registered after API ROUTES
 app.get('*', function(req, res) {
 	res.sendFile(path.join(__dirname + '/public/app/imagedisplay.html'));
+	res.sendFile(path.join(__dirname + '/public/app/index.html'));
 });
 
 // START THE SERVER
