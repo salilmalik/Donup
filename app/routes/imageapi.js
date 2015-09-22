@@ -8,6 +8,7 @@ var config = require('../../config');
 var mkdirp = require('mkdirp');
 var crypto = require("crypto");
 var gm = require('gm');
+var imageValidations = require('../validations/imageValidations');
 
 module.exports = function(app, express) {
 
@@ -19,6 +20,14 @@ module.exports = function(app, express) {
 			multipartMiddleware,
 			function(req, res) {
 				console.log("POST CALLED");
+				var validate = imageValidations.validateImage(req);
+				console.log("validate: " + validate);
+				/*if (validate != 'IMAGE VALIDATED') {
+							console.log("OUT");
+							res.json(validate);
+				}*/
+				validate = 'IMAGE VALIDATED';
+				if (validate === 'IMAGE VALIDATED') {
 				var file = req.files.file;
 				console.log(file.name);
 				console.log("FILE PATH" + file.path);
@@ -28,6 +37,7 @@ module.exports = function(app, express) {
 				var image = new Img();
 				image.name = file.name;
 				console.log(image.name);
+				console.log("SIZE: "+req.files.file.size);
 				image.userID = req.body.userID;
 
 				var newPath = './public/uploads/';
@@ -80,6 +90,7 @@ module.exports = function(app, express) {
 						message : 'Image saved'
 					});
 				});
+			}
 			})
 
 	apiRouter.route('/:id')
