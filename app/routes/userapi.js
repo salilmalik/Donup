@@ -1,11 +1,11 @@
-var bodyParser = require('body-parser'); // get body-parser
 var User = require('../models/user');
-var jwt = require('jsonwebtoken');
 var config = require('../../config');
+var userValidations = require('../validations/userValidations');
+var jwt = require('jsonwebtoken');
+var bodyParser = require('body-parser');
 var async = require('async');
 var crypto = require("crypto");
 var nodemailer = require('nodemailer');
-var userValidations = require('../validations/userValidations');
 
 // super secret for creating tokens
 var superSecret = config.secret;
@@ -14,22 +14,20 @@ module.exports = function(app, express) {
 
 	var apiRouter = express.Router();
 
-	// route to authenticate a user (POST
-	// http://localhost:8080/user/login)
+	// route to authenticate a user
 	apiRouter
 			.post(
 					'/login',
 					function(req, res) {
-						// find the user
+						// Validating the user information
 						var validate = userValidations.validateLogin(req);
 						console.log("validate: " + validate);
-						/*if (validate != 'LOGIN VALIDATED') {
-							console.log("OUT");
-							res.json(validate);
-						}*/
+						/*
+						 * if (validate != 'LOGIN VALIDATED') {
+						 * console.log("OUT"); res.json(validate); }
+						 */
 						validate = 'LOGIN VALIDATED';
 						if (validate === 'LOGIN VALIDATED') {
-							console.log("IN");
 							User
 									.findOne({
 										username : req.body.username
@@ -37,10 +35,9 @@ module.exports = function(app, express) {
 									.select('name username password')
 									.exec(
 											function(err, user) {
-
 												if (err)
 													throw err;
-												// no user with that username
+												// No user with that username
 												// was found
 												if (!user) {
 													res
@@ -50,7 +47,6 @@ module.exports = function(app, express) {
 																returnCode : '1'
 															});
 												} else if (user) {
-
 													// check if password matches
 													var validPassword = user
 															.comparePassword(req.body.password);
@@ -62,10 +58,9 @@ module.exports = function(app, express) {
 																	returnCode : '2'
 																});
 													} else {
-
 														// if user is found and
 														// password is right
-														// create a token
+														// then create a token
 														var token = jwt
 																.sign(
 																		{
@@ -74,10 +69,11 @@ module.exports = function(app, express) {
 																		},
 																		superSecret,
 																		{
+																			// expires
+																			// in
+																			// 24
+																			// hours
 																			expiresInMinutes : 1440
-																		// expires
-																		// in 24
-																		// hours
 																		});
 
 														// return the
@@ -100,41 +96,27 @@ module.exports = function(app, express) {
 
 	apiRouter
 			.route('/user')
-			// create a user (accessed at POST http://localhost:8080/user)
+			// Create a user
 			.post(
 					function(req, res) {
-
+						// Validating the user information
 						var validate = userValidations.validateRegister(req);
 						conole.log("VALIDATION" + validate);
-						/*if (validate != 'REGISTER VALIDATED') {
-							console.log("OUT");
-							res.json(validate);
-						}*/
-						validate= 'REGISTER VALIDATED';
+						/*
+						 * if (validate != 'REGISTER VALIDATED') {
+						 * console.log("OUT"); res.json(validate); }
+						 */
+						validate = 'REGISTER VALIDATED';
 						if (validate === 'REGISTER VALIDATED') {
 							var user = new User(); // create a new instance of
 							// the User
 							// model
 							user.name = req.body.name; // set the users name
-							// (comes from the
-							// request)
 							user.username = req.body.username; // set the users
 							// username
-							// (comes
-							// from the request)
 							user.password = req.body.password; // set the users
 							// password
-							// (comes
-							// from the request)
-							user.confirmed = 'false';
-							console.log("REGISTER USER CALLED");
-							if (req.body.password != req.body.confirmPassword) {
-								return res
-										.json({
-											success : false,
-											message : 'Password and confirm password do not match.'
-										});
-							}
+							user.confirmed = false;
 							user
 									.save(function(err) {
 										if (err) {
@@ -143,37 +125,30 @@ module.exports = function(app, express) {
 												return res
 														.json({
 															success : false,
-															message : 'A user with that username already exists. '
+															message : 'A user with that username already exists. ',
+															returnCode : '1'
 														});
 											else
 												return res.send(err);
 										}
-
 										// return a message
 										res.json({
-											message : 'User created!'
+											success : true,
+											message : 'User created!',
+											returnCode : '2'
 										});
 									});
-							console.log("CONFIRM EMAIL");
-							confirmPassword(req, res);
+							confirmEmail(req, res);
 						}
 					})
 
-			// get all the users (accessed at GET
-			// http://localhost:8080/api/user)
-			.get(function(req, res) {
+	// get all the users
+	/*
+	 * .get(function(req, res) { User.find({}, function(err, users) { if (err)
+	 * res.send(err); // return the users res.json(users); }); });
+	 */
 
-				User.find({}, function(err, users) {
-					if (err)
-						res.send(err);
-
-					// return the users
-					res.json(users);
-				});
-			});
-
-	function confirmPassword(req, res) {
-		console.log("CONFIRM PASSWORD CALLED");
+	function confirmEmail(req, res) {
 		async
 				.waterfall(
 						[
@@ -198,9 +173,7 @@ module.exports = function(app, express) {
 																		returnCode : '1'
 																	});
 														}
-														user.confirmEmailToken = token; // 1
-														// hour
-
+														user.confirmEmailToken = token;
 														user
 																.save(function(
 																		err) {
@@ -221,11 +194,11 @@ module.exports = function(app, express) {
 												}
 											});
 									var mailOptions = {
-										to : 'salilmalik92@gmail.com',
+										to : req.body.username,
 										from : 'donupapp@yahoo.com',
-										subject : 'Node.js Confirm Email',
+										subject : 'Donup Confirm Email',
 										text : 'Please confirm your Email address.\n\n'
-												+ 'Please click on the following link, or paste this into your browser to complete the process:\n\n'
+												+ 'Please click on the following link, or paste this into your browser to complete the registeration process:\n\n'
 												+ 'http://'
 												+ req.headers.host
 												+ '/confirmEmail/'
@@ -245,11 +218,10 @@ module.exports = function(app, express) {
 								console.log(err);
 								return next(err);
 							}
-							console.log("Mail sent");
+							;
 						});
 	}
 	;
-
 	apiRouter
 			.post(
 					'/forgotPassword',
@@ -292,7 +264,6 @@ module.exports = function(app, express) {
 																		user.resetPasswordExpires = Date
 																				.now() + 3600000; // 1
 																		// hour
-
 																		user
 																				.save(function(
 																						err) {
@@ -313,9 +284,9 @@ module.exports = function(app, express) {
 																}
 															});
 													var mailOptions = {
-														to : 'syal.anuj@gmail.com',
+														to : req.body.username,
 														from : 'donupapp@yahoo.com',
-														subject : 'Node.js Password Reset',
+														subject : 'Donup Password Reset',
 														text : 'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n'
 																+ 'Please click on the following link, or paste this into your browser to complete the process:\n\n'
 																+ 'http://'
@@ -343,18 +314,14 @@ module.exports = function(app, express) {
 												console.log(err);
 												return next(err);
 											}
-											console.log("Mail sent");
 										});
 					});
 
 	apiRouter.post('/resetPassword/:resetPasswordToken', function(req, res,
 			next) {
-		console.log("resetPasswordToken" + req.params.resetPasswordToken);
-		console.log("req.body.password" + req.body.password);
 		User.findOne({
 			resetPasswordToken : req.params.resetPasswordToken
 		}).select('username').exec(function(err, user) {
-
 			if (err) {
 				console.log("error :" + err);
 				res.send(err);
@@ -368,7 +335,7 @@ module.exports = function(app, express) {
 			}
 			if (user) {
 				console.log(user);
-
+				console.log(req.body);
 				if (req.body.name)
 					user.name = req.body.name;
 				if (req.body.username)
@@ -383,80 +350,58 @@ module.exports = function(app, express) {
 
 					// return a message
 					res.json({
-						message : 'Password reset'
+						success : true,
+						message : 'Reset password token validated!',
+						returnCode : '2'
 					});
-				});
-
-				res.json({
-					success : true,
-					message : 'Reset password token validated!',
-					returnCode : '1'
 				});
 			}
 		});
 	});
 
 	apiRouter
-			.post(
-					'/confirmEmail/:confirmEmailToken',
+			.post('/confirmEmail/:confirmEmailToken',
 					function(req, res, next) {
 						console.log("confirmEmailToken"
 								+ req.params.confirmEmailToken);
-						User
-								.findOne(
-										{
-											confirmEmailToken : req.params.confirmEmailToken
-										})
-								.select('username')
-								.exec(
-										function(err, user) {
+						User.findOne({
+							confirmEmailToken : req.params.confirmEmailToken
+						}).select('username').exec(function(err, user) {
 
-											if (err) {
-												console.log("error :" + err);
-												res.send(err);
-											}
-											if (!user) {
-												res
-														.json({
-															success : false,
-															message : 'Not a valid link.',
-															returnCode : '1'
-														})
-											}
-											if (user) {
-												console
-														.log("user is there and req.params.confirmEmailToken : "
-																+ req.params.confirmEmailToken);
-												user.confirmed = 'true';
+							if (err) {
+								console.log("error :" + err);
+								res.send(err);
+							}
+							if (!user) {
+								res.json({
+									success : false,
+									message : 'Not a valid link.',
+									returnCode : '1'
+								})
+							}
+							if (user) {
 
-												// save the user
-												user
-														.save(function(err) {
-															if (err)
-																res.send(err);
+								user.confirmed = true;
 
-															// return a message
-															res
-																	.json({
-																		message : 'Email confirmed'
-																	});
-														});
+								// save the user
+								user.save(function(err) {
+									if (err)
+										res.send(err);
 
-												res
-														.json({
-															success : true,
-															message : 'Email token validated!',
-															returnCode : '1'
-														});
-											}
-										});
+									// return a message
+									res.json({
+										success : true,
+										message : 'Email token validated!',
+										returnCode : '2'
+									});
+								});
+
+							}
+						});
 					});
 
 	// route middleware to verify a token
 	apiRouter.use(function(req, res, next) {
-		// do logging
-		console.log('Somebody just came to our app!');
-
 		// check header or url parameters or post parameters for token
 		var token = req.body.token || req.query.token
 				|| req.headers['x-access-token'];
@@ -470,7 +415,8 @@ module.exports = function(app, express) {
 				if (err) {
 					res.status(403).send({
 						success : false,
-						message : 'Failed to authenticate token.'
+						message : 'Failed to authenticate token.',
+						returnCode : '1'
 					});
 				} else {
 					// if everything is good, save to request for use in other
@@ -483,21 +429,19 @@ module.exports = function(app, express) {
 			});
 
 		} else {
-
 			// if there is no token
 			// return an HTTP response of 403 (access forbidden) and an error
 			// message
 			res.status(403).send({
 				success : false,
-				message : 'No token provided.'
+				message : 'No token provided.',
+				returnCode : '2'
 			});
 
 		}
 	});
 
-	// on routes that end in /user/:user_id
 	apiRouter.route('user/:user_id')
-
 	// get the user with that id
 	.get(function(req, res) {
 		User.findById(req.params.user_id, function(err, user) {
@@ -531,7 +475,9 @@ module.exports = function(app, express) {
 
 				// return a message
 				res.json({
-					message : 'Password changed'
+					success : true,
+					message : 'Password changed',
+					returnCode : '1'
 				});
 			});
 
@@ -546,11 +492,11 @@ module.exports = function(app, express) {
 
 				res.json({ message: 'Successfully deleted' });
 			});
-		});*/
+		
 	// api endpoint to get user information
 	apiRouter.get('/me', function(req, res) {
 		res.send(req.decoded);
 	});
-
+});*/
 	return apiRouter;
 };

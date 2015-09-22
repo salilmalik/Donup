@@ -10,8 +10,6 @@ var mongoose = require('mongoose');
 var config = require('./config');
 var path = require('path');
 
-
-
 // APP CONFIGURATION ==================
 // ====================================
 // use body parser so we can grab information from POST requests
@@ -19,7 +17,6 @@ app.use(bodyParser.urlencoded({
 	extended : true
 }));
 app.use(bodyParser.json());
-
 
 // configure our app to handle CORS requests
 app.use(function(req, res, next) {
@@ -32,7 +29,6 @@ app.use(function(req, res, next) {
 
 // log all requests to the console
 app.use(morgan('dev'));
-
 
 // set static files location
 // used for requests that our frontend will make

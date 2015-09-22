@@ -1,108 +1,96 @@
-var bodyParser = require('body-parser');
-var fs = require("fs");
 var Img = require('../models/image');
+var config = require('../../config');
+var bodyParser = require('body-parser');
+var imageValidations = require('../validations/imageValidations');
+var fs = require("fs");
 var multipart = require('connect-multiparty');
 var multipartMiddleware = multipart();
 var jwt = require('jsonwebtoken');
-var config = require('../../config');
 var mkdirp = require('mkdirp');
 var crypto = require("crypto");
 var gm = require('gm');
-var imageValidations = require('../validations/imageValidations');
 
 module.exports = function(app, express) {
 
 	var apiRouter = express.Router();
 
 	apiRouter.route('/')
-
+	// save the image to filesystem and links to db.
 	.post(
 			multipartMiddleware,
 			function(req, res) {
-				console.log("POST CALLED");
 				var validate = imageValidations.validateImage(req);
-				console.log("validate: " + validate);
-				/*if (validate != 'IMAGE VALIDATED') {
-							console.log("OUT");
-							res.json(validate);
-				}*/
+				/*
+				 * if (validate != 'IMAGE VALIDATED') { console.log("OUT");
+				 * res.json(validate); }
+				 */
 				validate = 'IMAGE VALIDATED';
 				if (validate === 'IMAGE VALIDATED') {
-				var file = req.files.file;
-				console.log(file.name);
-				console.log("FILE PATH" + file.path);
-				console.log("FILE" + file);
-				console.log("FILE TYPEE" + file.type);
-				console.log(file);
-				var image = new Img();
-				image.name = file.name;
-				console.log(image.name);
-				console.log("SIZE: "+req.files.file.size);
-				image.userID = req.body.userID;
-
-				var newPath = './public/uploads/';
-				var imagePath = newPath
-						+ crypto.randomBytes(12).toString('hex') + file.name;
-
-				var newThPath = './public/tn/';
-				var imageThPath = newThPath
-						+ crypto.randomBytes(12).toString('hex') + file.name;
-
-				mkdirp(newPath, function(err) {
-					if (err)
-						console.error(err)
-				});
-				mkdirp(newThPath, function(err) {
-					if (err)
-						console.error(err)
-				});
-				console.log('folder created at ' + newPath);
-				fs.readFile(file.path, function(err, data) {
-					fs.writeFile(imagePath, data, function(err) {
+					var file = req.files.file;
+					var image = new Img();
+					image.name = file.name;
+					image.userID = req.body.username;
+					var newPath = './public/uploads/';
+					var imagePath = newPath
+							+ crypto.randomBytes(12).toString('hex')
+							+ file.name;
+					var newThPath = './public/tn/';
+					var imageThPath = newThPath
+							+ crypto.randomBytes(12).toString('hex')
+							+ file.name;
+					mkdirp(newPath, function(err) {
+						if (err)
+							console.error(err)
+					});
+					mkdirp(newThPath, function(err) {
+						if (err)
+							console.error(err)
+					});
+					fs.readFile(file.path, function(err, data) {
+						fs.writeFile(imagePath, data, function(err) {
+							if (err) {
+								throw err;
+							}
+						});
+					});
+					gm(file.path).resize(200, 200).autoOrient().write(
+							imageThPath, function(err) {
+								if (err)
+									console.log(err);
+							});
+					image.img = imagePath;
+					image.imgtn = imageThPath;
+					image.save(function(err, objectToInsert) {
 						if (err) {
-							throw err;
+							console.log(err);
+							return res.json({
+								success : false,
+								message : 'Image not saved. ',
+								returnCode : '1'
+							});
 						}
-					});
-					console.log("imagePath: " + imagePath);
-				});
-
-				gm(file.path).resize(200, 200).autoOrient().write(imageThPath,
-						function(err) {
-							if (err)
-								console.log(' error! ' + err);
-							if (!err)
-								console.log(' hooray! ');
+						var objectId = objectToInsert._id;
+						res.json({
+							success : true,
+							message : 'Image saved. ',
+							returnCode : '2'
 						});
-				image.img = imagePath;
-				image.imgtn = imageThPath;
-				console.log("image.img" + image.img);
-				image.save(function(err, objectToInsert) {
-					if (err) {
-						console.log(err);
-						return res.json({
-							success : false,
-							message : 'Image not saved. '
-						});
-					}
-					var objectId = objectToInsert._id;
-					console.log("objectId" + objectId);
-					res.json({
-						message : 'Image saved'
 					});
-				});
-			}
+				}
 			})
 
 	apiRouter.route('/:id')
 	// get the image with that id
 	.get(function(req, res) {
-		console.log("IMAGE GET CALLED" + req.params.id);
 		Img.findById(req.params.id, function(err, image) {
 			if (err)
 				res.send(err);
 			if (!image) {
-				console.log("NOT FOUND");
-
+				res.json({
+					success : false,
+					message : 'No image found. ',
+					returnCode : '1'
+				});
 			}
 			if (image) {
 				res.json(image);
@@ -115,50 +103,39 @@ module.exports = function(app, express) {
 		Img.findById(req.params.id, function(err, image) {
 			if (err)
 				res.send(err);
-			console.log(image.points + "image.points");
-			// set the new user information if it exists in the request
 			image.points = image.points + 1;
-			// save the user
-			console.log(image.points + "image.points");
+			// save the updated image info
 			image.save(function(err) {
 				if (err)
 					res.send(err);
-				// return a message
 				res.json({
-					message : 'Points Upgraded'
+					success : true,
+					message : 'Points updated. ',
+					returnCode : '1'
 				});
 			});
 
 		});
 	})
 	apiRouter.route('/getUserImages/:userId')
-	// get the image with that id
-	.get(
-			function(req, res) {
-				Img.find({
-					"userID" : req.params.userId
-				}, function(err, imageList) {
-					if (err)
-						res.send(err);
-					console.log("SEND BACK IMAGE: " + req.params.id);
-					console.log(image.name);
-
-					console.log("Images of UserID: " + req.params.userId);
-					console.log("returned image");
-					// new Buffer(image.img.data).toString('base64')
-					if (!imageList) {
-						console.log("NOT FOUND");
-					}
-					if (imageList) {
-						console.log("RETURNED IMAGE");
-						imageList.forEach(function(image) {
-							image.img.data = new Buffer(image.img.data)
-									.toString('base64');
-						});
-					}
-					res.json(imageList);
+	// get the image with that id for a user
+	.get(function(req, res) {
+		Img.find({
+			"userID" : req.params.userId
+		}, function(err, imageList) {
+			if (err)
+				res.send(err);
+			if (!imageList) {
+				res.json({
+					success : false,
+					message : 'No images found for the given user. ',
+					returnCode : '1'
 				});
-			})
-
+			}
+			if (imageList) {
+				res.json(imageList);
+			}
+		});
+	})
 	return apiRouter;
 };

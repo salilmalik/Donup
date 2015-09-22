@@ -1,5 +1,4 @@
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://donupapp:kuchbhi77@ds039860.mongolab.com:39860/donup');
 var Schema = mongoose.Schema;
 var bcrypt = require('bcrypt-nodejs');
 
@@ -18,10 +17,10 @@ var UserSchema = new Schema({
 		required : true,
 		select : false
 	},
-	resetPasswordToken: String,
-	confirmEmailToken:String,
-	resetPasswordExpires: Date,
-	confirmed:  Boolean
+	resetPasswordToken : String,
+	confirmEmailToken : String,
+	resetPasswordExpires : Date,
+	confirmed : Boolean
 });
 
 // hash the password before the user is saved
@@ -46,7 +45,6 @@ UserSchema.pre('save', function(next) {
 // method to compare a given password with the database hash
 UserSchema.methods.comparePassword = function(password) {
 	var user = this;
-
 	return bcrypt.compareSync(password, user.password);
 };
 
