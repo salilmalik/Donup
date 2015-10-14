@@ -1,5 +1,6 @@
 module.exports = {
 'port': process.env.PORT || 8080,
-'database': 'mongodb://donupapp:kuchbhi77@ds039860.mongolab.com:39860/donup',
+'database': 'mongodb://127.0.0.1:27017/donup',
+
 'secret': 'kuchbhi'
 };
