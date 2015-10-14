@@ -122,6 +122,7 @@ module.exports = function(app, express) {
 										if (err) {
 											// duplicate entry
 											if (err.code == 11000)
+													console.log('ERROR'+11000);
 												return res
 														.json({
 															success : false,
@@ -129,6 +130,7 @@ module.exports = function(app, express) {
 															returnCode : '1'
 														});
 											else
+												console.log('ERROR'+err);
 												return res.send(err);
 										}
 										// return a message
