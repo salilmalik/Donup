@@ -117,6 +117,7 @@ module.exports = function(app, express) {
 							user.password = req.body.password; // set the users
 							// password
 							user.confirmed = false;
+								console.log("save");
 							user
 									.save(function(err) {
 										if (err) {
@@ -135,7 +136,9 @@ module.exports = function(app, express) {
 												console.log('ERROR' + err);
 												return res.send(err);
 											}
+													console.log("here");
 										}
+											console.log("no here");
 										// return a message
 										res.json({
 											success : true,
