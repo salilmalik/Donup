@@ -101,7 +101,7 @@ module.exports = function(app, express) {
 					function(req, res) {
 						// Validating the user information
 						var validate = userValidations.validateRegister(req);
-						conole.log("VALIDATION" + validate);
+						console.log("VALIDATION" + validate);
 						/*
 						 * if (validate != 'REGISTER VALIDATED') {
 						 * console.log("OUT"); res.json(validate); }
