@@ -121,17 +121,18 @@ module.exports = function(app, express) {
 									.save(function(err) {
 										if (err) {
 											// duplicate entry
-											if (err.code == 11000)
-													console.log('ERROR'+11000);
+									if (err.code == 11000) {
+												console.log('ERROR' + 11000);
 												return res
 														.json({
 															success : false,
 															message : 'A user with that username already exists. ',
 															returnCode : '1'
 														});
-											else{
-												console.log('ERROR'+err);
-												
+											} else {
+												console.log('ERROR' + err);
+
+												console.log('ERROR' + err);
 												return res.send(err);
 											}
 										}
