@@ -1,4 +1,4 @@
-var User = require('../models/user');
+var User = require('../models/User');
 var config = require('../../config');
 var userValidations = require('../validations/userValidations');
 var jwt = require('jsonwebtoken');
