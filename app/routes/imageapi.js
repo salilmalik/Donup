@@ -1,4 +1,4 @@
-var Img = require('../models/image');
+var Img = require('../models/Image');
 var config = require('../../config');
 var bodyParser = require('body-parser');
 var imageValidations = require('../validations/imageValidations');
