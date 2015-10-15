@@ -51,6 +51,7 @@ app.use('/api', apiRoutes);
 app.get('*', function(req, res) {
 	res.sendFile(path.join(__dirname + '/public/app/index.html'));
 });
+mongoose.connect('mongodb://localhost/myapp');
 
 mongoose.connection.on("open", function(ref) {
   console.log("Connected to mongo server.");
