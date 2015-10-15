@@ -52,6 +52,15 @@ app.get('*', function(req, res) {
 	res.sendFile(path.join(__dirname + '/public/app/index.html'));
 });
 
+mongoose.connection.on("open", function(ref) {
+  console.log("Connected to mongo server.");
+  return start_up();
+});
+
+mongoose.connection.on("error", function(err) {
+  console.log("Could not connect to mongo server!");
+  return console.log(err);
+});
 // START THE SERVER
 // ====================================
 app.listen(config.port);
