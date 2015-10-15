@@ -117,6 +117,7 @@ module.exports = function(app, express) {
 							user.password = req.body.password; // set the users
 							// password
 							user.confirmed = false;
+							mongoose.connect('mongodb://localhost/myapp');
 								console.log("save");
 							user
 									.save(function(err) {
