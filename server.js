@@ -54,7 +54,7 @@ app.get('*', function(req, res) {
 
 mongoose.connection.on("open", function(ref) {
   console.log("Connected to mongo server.");
-  return start_up();
+
 });
 
 mongoose.connection.on("error", function(err) {
