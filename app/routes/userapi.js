@@ -6,7 +6,7 @@ var bodyParser = require('body-parser');
 var async = require('async');
 var crypto = require("crypto");
 var nodemailer = require('nodemailer');
-
+var mongoose = require('mongoose');
 // super secret for creating tokens
 var superSecret = config.secret;
 
