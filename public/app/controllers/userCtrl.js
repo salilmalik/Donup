@@ -42,4 +42,38 @@
           }
 
       } ]);
+ app.directive('equals', function() {
+        return {
+            restrict : 'A', // only activate on element attribute
+            require : '?ngModel', // get a hold of NgModelController
+            link : function(scope, elem, attrs, ngModel) {
+                if (!ngModel)
+                    alert("NO MODEL");
+                    return; // do nothing if no ng-model
+
+                // watch own value and re-validate on change
+                scope.$watch(attrs.ngModel, function() {
+                      alert("validate");
+                    validate();
+                });
+
+                // observe the other value and re-validate on change
+                attrs.$observe('equals', function(val) {
+                              alert("observe");
+                    validate();
+                });
+
+                var validate = function() {
+                    // values
+                         alert("validate function");
+                    var val1 = ngModel.$viewValue;
+                    var val2 = attrs.equals;
+
+                    // set validity
+                    ngModel.$setValidity('equals', !val1 || !val2
+                            || val1 === val2);
+                };
+            }
+        }
+    });
   })();

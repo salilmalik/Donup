@@ -73,7 +73,8 @@ module.exports = function (app, express) {
 			            res.json({
 			                success: true,
 			                message: 'Image saved. ',
-			                returnCode: '2'
+			                returnCode: '2',
+			                objectId:objectId
 			            });
 			        });
 			    }

@@ -1,5 +1,5 @@
 var app = angular.module('donup');
-app.factory('ImageService',['$http',function($http,$scope){
+app.factory('ImageService',['$http',function($http){
      return{
        getImage: getImage,
        getUserImages: getUserImages

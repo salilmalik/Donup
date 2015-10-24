@@ -119,8 +119,7 @@ module.exports = function (app, express) {
 					        user.password = req.body.password; // set the users
 					        // password
 					        user.confirmed = false;
-					        mongoose.connect('mongodb://localhost/myapp');
-					        console.log("save");
+					       
 					        user
 									.save(function (err) {
 									    if (err) {
@@ -134,14 +133,11 @@ module.exports = function (app, express) {
 														    returnCode: '1'
 														});
 									        } else {
-									            console.log('ERROR' + err);
-
-									            console.log('ERROR' + err);
+									   
 									            return res.send(err);
 									        }
-									        console.log("here");
+									       
 									    }
-									    console.log("no here");
 									    // return a message
 									    res.json({
 									        success: true,

@@ -16,9 +16,9 @@
         templateUrl:'app/views/landing.html'    
     })    
 	// home page route
-	.when('/home', {
-		controller : 'HomeCtrl',
-		templateUrl : 'app/views/home.html'
+	.when('/upload', {
+		controller : 'UploadCtrl',
+		templateUrl : 'app/views/upload.html'
 	})	
     //User login & Register
     .when('/login', {
@@ -72,7 +72,12 @@
     .when('/changePassword', {
         controller : 'ChangePasswordCtrl',
         templateUrl : 'app/views/changePassword.html'   
-    });
+    })
+    .when('/imageLinks/:param', {
+        controller : 'ImageLinksCtrl',
+        templateUrl : 'app/views/imageLinks.html',
+      
+    });;
     
 	// get rid of the hash in the URL
 	$locationProvider.html5Mode(true);
