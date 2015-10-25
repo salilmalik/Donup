@@ -13,18 +13,7 @@
                 $scope.$watch('files', function () {
                     $scope.upload($scope.files);
                 });
-              /*  imageService.getUserImages($scope.userId).success(function (data, status, headers, config) {
-                    $scope.images = data;
-                    console.log($scope.images);
-                    angular.forEach($scope.images, function (image, key) {
-                        image.img = image.img.substring(8);
-                        image.imgtn = image.imgtn.substring(8);
-                    });
-                    $scope.img = $scope.images.img.substring(8);
-                    $scope.imgtn = $scope.images.imgtn.substring(8);
-                });*/
-
-                $scope.upload = function (files) {
+                  $scope.upload = function (files) {
                     if (files && files.length) {
                         for (var i = 0; i < files.length; i++) {
                             var file = files[i];
@@ -37,27 +26,14 @@
                                 console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name);
                                
                             }).success(function (data, status, headers, config) {
-                                console.log('file ' + config.file.name + 'uploaded. Response: ' + data);
-                                console.log("data.objectId"+data.objectId);
                                 $location.path("/imageLinks/"+data.objectId);
-                                console.log("INSIDE SUCCESS NOW OPEN NEW PAGE WITH LINKS");
-
-                            }).error(function (data, status, headers, config) {
+                           }).error(function (data, status, headers, config) {
                                 console.log('error status: ' + status);
                             })
                         }
                     }
                 };
-
-              /*  $scope.getImageFromBinary = function (imageData) {
-                    //success is the image binary,encoding it to base64 and bound to it
-                    var image = String.fromCharCode.apply(this, imageData);
-                    return image;
-                }*/
-                $scope.getImageUrl = function(imageId) {
-                    var imageUrl = $location.$$protocol + "://" + $location.$$host + ":" + $location.$$port + "/displayImage/" + imageId;
-                    return imageUrl;
-                }
+         
             } ]
         };
     });

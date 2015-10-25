@@ -4,21 +4,5 @@
         ngf-drag-over-class="dragover" ngf-multiple="true" ngf-allow-dir="true"
         ngf-accept="'image/*,application/pdf'">Drop or Click</div>
     <div ngf-no-file-drop>File Drag/Drop is not supported for this browser</div>
-    <div ng-repeat="imageFile in files">
-    <img class="image-display" ngf-src="imageFile" ngf-default-src="'/thumb.jpg'" ngf-accept="'image/*'">
-    </div>
-    <!-- <div>
-        <div ng-click="getUserImages('55ebe4d12368a56826866065')">Click to get image</div>
-        <div ng-click="getUserImages('hello')">Click to get image</div>
-        <img data-ng-src="data:image/png;base64,{{image}}">
-        <ul>
-        <li ng-repeat="image in images"><img data-ng-src="data:image/png;base64,{{image}}"></li>
-        <li ng-repeat="image in images"><img data-ng-src="data:image/png;base64,{{getImageFromBinary(image.img.data.data)}}"></li>
-        <li ng-repeat="image in images">
-            <img ng-src="{{image.img}}"></img>            
-            <a ng-href="{{getImageUrl(image._id)}}"><img ng-src="{{image.imgtn}}"></img>{{getImageUrl(image._id)}}</a>
-        </li>
-        </ul>
-    </div> -->
 </div>
 </form> 

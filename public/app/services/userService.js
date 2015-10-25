@@ -2,9 +2,11 @@ var app = angular.module('donup');
 app.factory('UserService',['$http',function($http){
     return{
         registerUser:registerUser,
-        loginUser:loginUser
+        loginUser:loginUser,
+        forgotPassword:forgotPassword,
+        resetPassword:resetPassword
     };
-    
+  
     
     function registerUser (user){
         return $http({
@@ -21,4 +23,21 @@ app.factory('UserService',['$http',function($http){
             data: user
         })
     };
+
+     function forgotPassword (user){
+        return $http({
+            method: 'POST',
+            url: '/api/forgotPassword',
+            data: user
+        })
+    };
+
+     function resetPassword (user){
+        return $http({
+            method: 'POST',
+            url: '/api/resetPassword',
+            data: user
+        })
+    };
+    
 }]);

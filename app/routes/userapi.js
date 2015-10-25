@@ -260,13 +260,16 @@ module.exports = function (app, express) {
 																			err,
 																			user) {
 																	    if (!user) {
-																	        res
+																	    	console.log("NO USER");
+																	       return res
 																					.json({
 																					    success: false,
 																					    message: 'No user with given username found.',
 																					    returnCode: '1'
 																					});
 																	    }
+
+																	    console.log("USER IS THERE sending mail");
 																	    user.resetPasswordToken = token;
 																	    user.resetPasswordExpires = Date
 																				.now() + 3600000; // 1
@@ -278,6 +281,12 @@ module.exports = function (app, express) {
 																							err,
 																							token,
 																							user);
+																				res
+																					.json({
+																					    success: true,
+																					    message: 'user with given username found.',
+																					    returnCode: '2'
+																					});
 																				});
 																	});
 												},
@@ -312,9 +321,7 @@ module.exports = function (app, express) {
 																	        return console
 																					.log(err);
 																	    }
-																	    done(
-																				err,
-																				'done');
+																	    done(err,'done');
 																	});
 												} ], function (err) {
 												    if (err) {
@@ -324,17 +331,17 @@ module.exports = function (app, express) {
 												});
 					});
 
-    apiRouter.post('/resetPassword/:resetPasswordToken', function (req, res,
+    apiRouter.post('/resetPassword', function (req, res,
 			next) {
         User.findOne({
-            resetPasswordToken: req.params.resetPasswordToken
+            resetPasswordToken: req.body.resetPasswordToken
         }).select('username').exec(function (err, user) {
             if (err) {
                 console.log("error :" + err);
                 res.send(err);
             }
             if (!user) {
-                res.json({
+               return res.json({
                     success: false,
                     message: 'Not a valid link.',
                     returnCode: '1'

@@ -13,7 +13,7 @@
             $scope.imgtn = $location.$$protocol + "://" + $location.$$host + ":" + $location.$$port+$scope.image.imgtn.substring(8);
             $scope.view=$location.$$protocol + "://" + $location.$$host + ":" + $location.$$port+'/displayImage/'+$routeParams.param;
             $scope.forum='[URL='+ $scope.view+'][IMG]'+ $scope.imgtn+'[/IMG][/URL]';
-    $scope.htmlcode='<a href="'+ $scope.view+'" target="_blank"><img src="'+ $scope.imgtn+'" border="0"></a><br>';
+            $scope.htmlcode='<a href="'+ $scope.view+'" target="_blank"><img src="'+ $scope.imgtn+'" border="0"></a><br>';
   
             });
         }
