@@ -96,6 +96,7 @@ module.exports = function (app, express) {
 					    }
 					});
 
+
     apiRouter
 			.route('/user')
     // Create a user
@@ -416,12 +417,13 @@ module.exports = function (app, express) {
 					    });
 					});
 
-    // route middleware to verify a token
+   // route middleware to verify a token
     apiRouter.use(function (req, res, next) {
         // check header or url parameters or post parameters for token
+      
         var token = req.body.token || req.query.token
 				|| req.headers['x-access-token'];
-
+			
         // decode token
         if (token) {
 
@@ -457,7 +459,7 @@ module.exports = function (app, express) {
         }
     });
 
-    apiRouter.route('user/:user_id')
+    apiRouter.route('/user/:user_id')
     // get the user with that id
 	.get(function (req, res) {
 	    User.findById(req.params.user_id, function (err, user) {
@@ -471,6 +473,7 @@ module.exports = function (app, express) {
 
     // update the user with this id
 	.put(function (req, res) {
+		console.log("PUT CALLED");
 	    User.findById(req.params.user_id, function (err, user) {
 
 	        if (err)

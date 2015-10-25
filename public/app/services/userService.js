@@ -5,7 +5,8 @@ app.factory('UserService',['$http',function($http){
         loginUser:loginUser,
         forgotPassword:forgotPassword,
         resetPassword:resetPassword,
-        confirmEmailLink:confirmEmailLink
+        confirmEmailLink:confirmEmailLink,
+        getUser:getUser
     };
   
     
@@ -46,6 +47,15 @@ app.factory('UserService',['$http',function($http){
             method: 'POST',
             url: '/api/confirmEmailLinks',
             data: user
+        })
+    };
+
+      function getUser(user){
+        console.log('user.token'+user.token);
+        return $http({
+            method: 'GET',
+            url: '/api/user/'+user.userID,
+            headers: {'x-access-token': user.token}
         })
     };
 
