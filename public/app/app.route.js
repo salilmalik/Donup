@@ -57,6 +57,10 @@
     .when('/contactUs', {
         templateUrl : 'app/views/contactUs.html'   
     })
+    .when('/confirmEmailLink/:param', {
+        controller : 'ConfirmEmailLinkCtrl',
+        templateUrl : 'app/views/confirmEmailLink.html'   
+    })
     .when('/displayImage/:param', {
         controller : 'DisplayImageCtrl',
         templateUrl : 'app/views/displayImage.html',

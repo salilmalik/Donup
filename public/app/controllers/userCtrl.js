@@ -8,7 +8,7 @@
           $scope.message;
           $scope.userToken;
           $scope.dataLoading = false;
-
+   
           $scope.registerUser = function () {
               $scope.dataLoading = true;
               userService.registerUser($scope.user).success(function (data) {

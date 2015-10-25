@@ -4,7 +4,8 @@ app.factory('UserService',['$http',function($http){
         registerUser:registerUser,
         loginUser:loginUser,
         forgotPassword:forgotPassword,
-        resetPassword:resetPassword
+        resetPassword:resetPassword,
+        confirmEmailLink:confirmEmailLink
     };
   
     
@@ -39,5 +40,14 @@ app.factory('UserService',['$http',function($http){
             data: user
         })
     };
+    
+     function confirmEmailLink(user){
+        return $http({
+            method: 'POST',
+            url: '/api/confirmEmailLinks',
+            data: user
+        })
+    };
+
     
 }]);

@@ -156,6 +156,7 @@ module.exports = function (app, express) {
     */
 
     function confirmEmail(req, res) {
+    	console.log('confirm email called');
         async
 				.waterfall(
 						[
@@ -192,6 +193,7 @@ module.exports = function (app, express) {
 													});
 								},
 								function (token, user, done) {
+								console.log('EMAIL TOKEN MAIL SENDING');
 								    var smtpTransport = nodemailer
 											.createTransport({
 											    service: 'Yahoo',
@@ -208,7 +210,7 @@ module.exports = function (app, express) {
 												+ 'Please click on the following link, or paste this into your browser to complete the registeration process:\n\n'
 												+ 'http://'
 												+ req.headers.host
-												+ '/confirmEmail/'
+												+ '/confirmEmailLink/'
 												+ token
 												+ '\n\n'
 												+ 'If you did not request this, please ignore this email..\n'
@@ -374,12 +376,10 @@ module.exports = function (app, express) {
     });
 
     apiRouter
-			.post('/confirmEmail/:confirmEmailToken',
+			.post('/confirmEmailLinks',
 					function (req, res, next) {
-					    console.log("confirmEmailToken"
-								+ req.params.confirmEmailToken);
 					    User.findOne({
-					        confirmEmailToken: req.params.confirmEmailToken
+					        confirmEmailToken: req.body.confirmEmailURLLink
 					    }).select('username').exec(function (err, user) {
 
 					        if (err) {
@@ -387,11 +387,12 @@ module.exports = function (app, express) {
 					            res.send(err);
 					        }
 					        if (!user) {
-					            res.json({
+					            return res.json({
 					                success: false,
 					                message: 'Not a valid link.',
 					                returnCode: '1'
 					            })
+					            
 					        }
 					        if (user) {
 
@@ -408,6 +409,7 @@ module.exports = function (app, express) {
 					                    message: 'Email token validated!',
 					                    returnCode: '2'
 					                });
+					               
 					            });
 
 					        }
