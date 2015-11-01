@@ -1,7 +1,7 @@
   (function () {
       'use strict';
       var app = angular.module('donup');
-      app.controller('UserCtrl', ['$scope', 'UserService', '$location', '$cookies', function ($scope, userService, $location, $cookies) {
+      app.controller('UserCtrl', ['$scope', 'UserService', '$location', '$cookies','$window', function ($scope, userService, $location, $cookies,$window) {
           //Models    
           $scope.user = {};
           $scope.isUserRegistered = false;
@@ -33,7 +33,7 @@
                       $cookies.put('userId', data.user._id); 
                       $scope.message = data.message;
                       $scope.dataLoading = false;
-                      $location.path('/home');
+                      $location.path('/');
                   }
                   $scope.message = data.message;
                   $scope.user.password = '';
