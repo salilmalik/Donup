@@ -8,11 +8,7 @@
       '$cookies',
       '$routeParams',
       '$route',
-      '$rootScope',
-      function($scope, imageService, $location, $routeParams, $route,
-          $rootScope) {
-        $rootScope.imageID = '';
-        $rootScope.imageID = $route.param;
+      function($scope, imageService, $location, $routeParams, $route) {
        
         displayImage();
         function displayImage() {
