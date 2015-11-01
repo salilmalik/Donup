@@ -77,6 +77,18 @@
         controller : 'ChangePasswordCtrl',
         templateUrl : 'app/views/changePassword.html'   
     })
+    .when('/multiImage', {
+        controller : 'MultiImageCtrl',
+        templateUrl : 'app/views/multiImage.html',
+       resolve: {
+      // I will cause a 1 second delay
+      delay: function($q, $timeout) {
+        var delay = $q.defer();
+        $timeout(delay.resolve, 1000);
+        return delay.promise;
+      }
+    }
+    })
     .when('/imageLinks/:param', {
         controller : 'ImageLinksCtrl',
         templateUrl : 'app/views/imageLinks.html',

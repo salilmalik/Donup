@@ -1,6 +1,6 @@
 (function () {
     var app = angular.module('donup');
-    app.directive('imageUpload', function () {
+    app.directive('imageUpload', function ($rootScope) {
         return {
             restrict: 'A',
             templateUrl: 'app/directives/imageUpload.html',
@@ -10,6 +10,7 @@
             controller: ['$scope', 'Upload', '$timeout', 'ImageService', '$cookies', '$location', function ($scope, Upload, $timeout, imageService, $cookies, $location) {
                 $scope.images = {};
                 $scope.userId = $cookies.get('userId');
+				$scope.imagesToUpload=[];
                 $scope.$watch('files', function () {
                     $scope.upload($scope.files);
                 });
@@ -26,7 +27,14 @@
                                 console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name);
                                
                             }).success(function (data, status, headers, config) {
+								$scope.imagesToUpload.push(data.objectId);
+								
+								if(i==1){
                                 $location.path("/imageLinks/"+data.objectId);
+								}else{
+                                $rootScope.imagesToUpload=$scope.imagesToUpload;
+								$location.path("/multiImage");
+								}
                            }).error(function (data, status, headers, config) {
                                 console.log('error status: ' + status);
                             })
