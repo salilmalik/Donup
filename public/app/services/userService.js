@@ -56,7 +56,6 @@ app.factory('UserService', [ '$http', function($http) {
     ;
 
     function getUser(user) {
-        console.log('user.token' + user.token);
         return $http({
             method : 'GET',
             url : '/api/user/' + user.userID,

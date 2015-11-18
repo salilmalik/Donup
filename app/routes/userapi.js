@@ -504,10 +504,6 @@ module.exports = function(app, express) {
 	})
 
 	apiRouter.post('/changePassword', function(req, res, next) {
-		console.log("changePassword called:" + req.body.password);
-		console.log("changePassword called:" + JSON.stringify(req.body));
-
-		console.log("req.body.password.confirm:" + req.body.password.confirm);
 		User.findById(req.body.userID).select('name username password').exec(
 				function(err, user) {
 					if (err)
