@@ -2,9 +2,10 @@
 	'use strict';
 	var app = angular.module('donup');
 	app.controller('ForgotPasswordCtrl', [
-			'$scope','$location',
+			'$scope',
+			'$location',
 			'UserService',
-			function($scope, $location,userService) {
+			function($scope, $location, userService) {
 				$scope.user = {};
 				$scope.sendPassword = function() {
 					$scope.dataLoading = true;
@@ -13,8 +14,7 @@
 								if (data.returnCode == '1') {
 									alert(data.message);
 									$location.path('/');
-								}
-								else if (data.returnCode == '2') {
+								} else if (data.returnCode == '2') {
 									alert(data.message);
 									$location.path('/');
 								}

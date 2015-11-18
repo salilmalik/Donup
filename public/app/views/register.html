@@ -1,41 +1,66 @@
 <link rel="stylesheet" href="assets/css/loginStyle.css">
 <div class="row">
-<div class="col-md-6 col-md-offset-3">
-    <h2>Register</h2>
-    <br />
-    <form name="registerForm" ng-submit="registerUser()" role="form">
-        <div class="form-group" ng-class="{ 'has-error': registerForm.name.$dirty && registerForm.name.$error.required }">
-            <label for="username">Name: </label>
-            <input type="text" name="name" id="name" class="form-control" ng-model="user.name" required ng-minlength="2" ng-maxlength="100"/>
-            <span ng-show="registerForm.name.$dirty && registerForm.name.$error.required" class="help-block">Name is required.</span>
-            <span ng-show="registerForm.name.$error.minlength" class="help-block">Name is too short.</span>
-            <span ng-show="registerForm.name.$error.maxlength" class="help-block">Name is too long. It should be less than 100 characters.</span>
-        </div>
-        <div class="form-group" ng-class="{ 'has-error': registerForm.username.$dirty && registerForm.username.$error.required }">
-            <label for="username">Username: </label>
-            <input type="email" name="username" id="username" class="form-control" ng-model="user.username" required ng-minlength="5" ng-maxlength="50"/>
-            <span ng-show="registerForm.username.$dirty && registerForm.username.$error.required" class="help-block">Username is required.</span>
-            <span ng-show="registerForm.username.$invalid && !registerForm.username.$pristine" class="help-block">Enter a valid email.</span>
-            <span ng-show="registerForm.username.$error.minlength" class="help-block">Username is too short.</span>
-            <span ng-show="registerForm.username.$error.maxlength" class="help-block">Username is too long. It should be less than 50 characters</span>
-        </div>
-        <div class="form-group" ng-class="{ 'has-error': registerForm.password.$dirty && registerForm.password.$error.required }">
-            <label for="password">Password: </label>
-            <input type="password" name="password" id="password" class="form-control" ng-model="user.password" equals="{{user.confirmPassword}}" required ng-minlength="8" ng-maxlength="20"/>
-            <span ng-show="registerForm.password.$dirty && registerForm.password.$error.required" class="help-block">Password is required.</span>
-            <span ng-show="registerForm.password.$error.minlength" class="help-block">Password is too short.</span>
-            <span ng-show="registerForm.password.$error.maxlength" class="help-block">Password is too long. It should be less than 20 characters.</span>
-        </div>
-         <div class="form-group" ng-class="{ 'has-error': registerForm.confirmPassword.$dirty && registerForm.password.$error.required }">
-            <label for="password">Confirm Password: </label>
-            <input type="password" name="confirmPassword" id="confirmPassword" class="form-control" ng-model="user.confirmPassword" equals="{{user.password}}" required />
-            <span ng-show="registerForm.confirmPassword.$dirty && registerForm.confirmPassword.$error.required" class="help-block">Passwords don't match.</span>
-        </div>
+    <div class="col-md-6 col-md-offset-3">
+        <h2>Register</h2>
+        <br />
+        <form name="registerForm" ng-submit="registerUser()" role="form">
+            <div class="form-group"
+                ng-class="{ 'has-error': registerForm.name.$dirty && registerForm.name.$error.required }">
+                <label for="username">Name: </label> <input type="text" name="name"
+                    id="name" class="form-control" ng-model="user.name" required
+                    ng-minlength="2" ng-maxlength="100" /> <span
+                    ng-show="registerForm.name.$dirty && registerForm.name.$error.required"
+                    class="help-block">Name is required.</span> <span
+                    ng-show="registerForm.name.$error.minlength" class="help-block">Name
+                    is too short.</span> <span ng-show="registerForm.name.$error.maxlength"
+                    class="help-block">Name is too long. It should be less than
+                    100 characters.</span>
+            </div>
+            <div class="form-group"
+                ng-class="{ 'has-error': registerForm.username.$dirty && registerForm.username.$error.required }">
+                <label for="username">Username: </label> <input type="email"
+                    name="username" id="username" class="form-control"
+                    ng-model="user.username" required ng-minlength="5"
+                    ng-maxlength="50" /> <span
+                    ng-show="registerForm.username.$dirty && registerForm.username.$error.required"
+                    class="help-block">Username is required.</span> <span
+                    ng-show="registerForm.username.$invalid && !registerForm.username.$pristine"
+                    class="help-block">Enter a valid email.</span> <span
+                    ng-show="registerForm.username.$error.minlength" class="help-block">Username
+                    is too short.</span> <span
+                    ng-show="registerForm.username.$error.maxlength" class="help-block">Username
+                    is too long. It should be less than 50 characters</span>
+            </div>
+            <div class="form-group"
+                ng-class="{ 'has-error': registerForm.password.$dirty && registerForm.password.$error.required }">
+                <label for="password">Password: </label> <input type="password"
+                    name="password" id="password" class="form-control"
+                    ng-model="user.password" equals="{{user.confirmPassword}}" required
+                    ng-minlength="8" ng-maxlength="20" /> <span
+                    ng-show="registerForm.password.$dirty && registerForm.password.$error.required"
+                    class="help-block">Password is required.</span> <span
+                    ng-show="registerForm.password.$error.minlength" class="help-block">Password
+                    is too short.</span> <span
+                    ng-show="registerForm.password.$error.maxlength" class="help-block">Password
+                    is too long. It should be less than 20 characters.</span>
+            </div>
+            <div class="form-group"
+                ng-class="{ 'has-error': registerForm.confirmPassword.$dirty && registerForm.password.$error.required }">
+                <label for="password">Confirm Password: </label> <input
+                    type="password" name="confirmPassword" id="confirmPassword"
+                    class="form-control" ng-model="user.confirmPassword"
+                    equals="{{user.password}}" required /> <span
+                    ng-show="registerForm.confirmPassword.$dirty && registerForm.confirmPassword.$error.required"
+                    class="help-block">Passwords don't match.</span>
+            </div>
 
-        <div class="form-actions">
-            <button type="submit" ng-disabled="registerForm.$invalid || dataLoading" class="btn btn-primary">Register</button>
-            <img ng-if="dataLoading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
-           </div>
-    </form>
-</div>
+            <div class="form-actions">
+                <button type="submit"
+                    ng-disabled="registerForm.$invalid || dataLoading"
+                    class="btn btn-primary">Register</button>
+                <img ng-if="dataLoading"
+                    src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+            </div>
+        </form>
+    </div>
 </div>

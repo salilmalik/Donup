@@ -3,9 +3,6 @@
   var app = angular.module('donup');
   app.controller('ImageLinksCtrl', [ '$scope','$routeParams','ImageService', '$route','$location',
       function($scope, $routeParams,imageService, $route,$location) {
-     
-          alert("Display Image Controller called." + $route.param);
-          alert("Display Image Controller called 2." + $routeParams.param);
           $scope.dataLoading = true;
             imageService.getImage($routeParams.param).success(function(data) {
             $scope.image = data;

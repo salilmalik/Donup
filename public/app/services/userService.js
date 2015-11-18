@@ -1,63 +1,82 @@
 var app = angular.module('donup');
-app.factory('UserService',['$http',function($http){
-    return{
-        registerUser:registerUser,
-        loginUser:loginUser,
-        forgotPassword:forgotPassword,
-        resetPassword:resetPassword,
-        confirmEmailLink:confirmEmailLink,
-        getUser:getUser
-    };
-  
-    
-    function registerUser (user){
-        return $http({
-            method: 'POST',
-            url: '/api/user',
-            data: user
-        })
-    };
-    
-    function loginUser (user){
-        return $http({
-            method: 'POST',
-            url: '/api/login',
-            data: user
-        })
+app.factory('UserService', [ '$http', function($http) {
+    return {
+        registerUser : registerUser,
+        loginUser : loginUser,
+        forgotPassword : forgotPassword,
+        resetPassword : resetPassword,
+        confirmEmailLink : confirmEmailLink,
+        getUser : getUser,
+        changeMyPassword : changeMyPassword
     };
 
-     function forgotPassword (user){
+    function registerUser(user) {
         return $http({
-            method: 'POST',
-            url: '/api/forgotPassword',
-            data: user
+            method : 'POST',
+            url : '/api/user',
+            data : user
         })
-    };
+    }
+    ;
 
-     function resetPassword (user){
+    function loginUser(user) {
         return $http({
-            method: 'POST',
-            url: '/api/resetPassword',
-            data: user
+            method : 'POST',
+            url : '/api/login',
+            data : user
         })
-    };
-    
-     function confirmEmailLink(user){
-        return $http({
-            method: 'POST',
-            url: '/api/confirmEmailLinks',
-            data: user
-        })
-    };
+    }
+    ;
 
-      function getUser(user){
-        console.log('user.token'+user.token);
+    function forgotPassword(user) {
         return $http({
-            method: 'GET',
-            url: '/api/user/'+user.userID,
-            headers: {'x-access-token': user.token}
+            method : 'POST',
+            url : '/api/forgotPassword',
+            data : user
         })
-    };
+    }
+    ;
 
-    
-}]);
+    function resetPassword(user) {
+        return $http({
+            method : 'POST',
+            url : '/api/resetPassword',
+            data : user
+        })
+    }
+    ;
+
+    function confirmEmailLink(user) {
+        return $http({
+            method : 'POST',
+            url : '/api/confirmEmailLinks',
+            data : user
+        })
+    }
+    ;
+
+    function getUser(user) {
+        console.log('user.token' + user.token);
+        return $http({
+            method : 'GET',
+            url : '/api/user/' + user.userID,
+            headers : {
+                'x-access-token' : user.token
+            }
+        })
+    }
+    ;
+
+    function changeMyPassword(user) {
+        return $http({
+            method : 'POST',
+            url : '/api/changePassword',
+            data : user,
+            headers : {
+                'x-access-token' : user.token
+            }
+        })
+    }
+    ;
+
+} ]);

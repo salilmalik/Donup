@@ -9,7 +9,7 @@
       '$routeParams',
       '$route',
       function($scope, imageService, $location, $routeParams, $route) {
-       
+
         displayImage();
         function displayImage() {
           $scope.dataLoading = true;
@@ -23,7 +23,8 @@
           imageService.updatePoints($route.param).success(
               function(data) {
               });
-    
+
+        }
       } ]);
   app.directive('imageonload', [ 'ImageService', '$route',
       function(imageService, $route) {
