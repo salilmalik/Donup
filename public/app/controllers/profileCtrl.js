@@ -16,7 +16,9 @@
           $scope.user.userID = $cookies.get('userId');
           $scope.user.token = $cookies.get('usertoken');
           userService.getUser($scope.user).success(function(data) {
-            $scope.user = data;
+          $scope.user = data;
+          $scope.user.points= data.points;
+
           });
         }
       } ]);

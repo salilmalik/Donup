@@ -84,17 +84,18 @@ module.exports = function (app, express) {
     // get the image with that id
 	.get(function (req, res) {
 	    Img.findById(req.params.id, function (err, image) {
-	        if (err)
-	            res.send(err);
+	        if (err){
+	            return res.send(err);
+	            }
 	        if (!image) {
-	            res.json({
+	           return res.json({
 	                success: false,
 	                message: 'No image found. ',
 	                returnCode: '1'
 	            });
 	        }
 	        if (image) {
-	            res.json(image);
+	           return res.json(image);
 	        }
 	    });
 	})

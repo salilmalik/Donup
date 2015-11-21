@@ -4,7 +4,8 @@ app.factory('ImageService', [ '$http', function($http) {
         getImage : getImage,
         getUserImages : getUserImages,
         getmultiImage : getmultiImage,
-        updatePoints : updatePoints
+        updatePoints : updatePoints,
+        updateUserPoints:updateUserPoints
     };
     function getImage(imageId) {
         console.log("GET IMAGE CALLED");
@@ -38,5 +39,15 @@ app.factory('ImageService', [ '$http', function($http) {
         })
     }
     ;
+    function updateUserPoints(userID) {
+        console.log("UPDATE POINTS" + userID);
+        return $http({
+            method : 'PUT',
+            url : '/api/user/' + userID
+        })
+    }
+    ;
+
+    
 
 } ]);

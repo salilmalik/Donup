@@ -14,6 +14,7 @@ module.exports = function(app, express) {
 
 	var apiRouter = express.Router();
 
+
 	// route to authenticate a user
 	apiRouter
 			.post(
@@ -415,6 +416,27 @@ module.exports = function(app, express) {
 
 			}
 		});
+	});
+
+
+    apiRouter.route('/user/:id')
+    // update the points
+	.put(function (req, res) {
+		    User.findById(req.params.id, function (err, user) {
+	        if (err)
+	            res.send(err);
+	        user.points = user.points + 1;
+	        // save the updated image info
+	        user.save(function (err) {
+	            if (err)
+	                res.send(err);
+	            res.json({
+	                success: true,
+	                message: 'Points updated. ',
+	                returnCode: '1'
+	            });
+	        });
+	    });
 	});
 
 	// route middleware to verify a token
