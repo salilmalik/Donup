@@ -9,7 +9,8 @@
 		$rootScope.loggedInUserToken = $cookies.put('usertoken', undefined);
 		$scope.logoutUser = function() {
 			$cookies.put('username', undefined);
-			$cookies.put('usertoken', undefined);
+			$cookies.put('username', undefined);
+			$cookies.put('userId', undefined);
 			$rootScope.loggedInUsername = undefined;
 			$rootScope.loggedInUserToken = undefined;
 		}
