@@ -1,8 +1,10 @@
 (function() {
   'use strict';
   var app = angular.module('donup');
-  app.controller('ImageLinksCtrl', [ '$scope','$routeParams','ImageService', '$route','$location',
-      function($scope, $routeParams,imageService, $route,$location) {
+  app.controller('ImageLinksCtrl', [ '$scope','$rootScope','$routeParams','$cookies','ImageService', '$route','$location',
+      function($scope, $rootScope, $routeParams,$cookies,imageService, $route,$location) {
+          $rootScope.loggedInUserToken=$cookies.get('usertoken');
+        $rootScope.loggedInUsername=$cookies.get('username');
           $scope.dataLoading = true;
             imageService.getImage($routeParams.param).success(function(data) {
             $scope.image = data;

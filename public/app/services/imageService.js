@@ -31,7 +31,6 @@ app.factory('ImageService', [ '$http', function($http) {
     }
     ;
     function updatePoints(imageId) {
-        console.log("UPDATE POINTS" + imageId);
         return $http({
             method : 'PUT',
             url : '/api/image/' + imageId
@@ -40,7 +39,6 @@ app.factory('ImageService', [ '$http', function($http) {
     }
     ;
     function updateUserPoints(userID) {
-        console.log("UPDATE POINTS" + userID);
         return $http({
             method : 'PUT',
             url : '/api/user/' + userID

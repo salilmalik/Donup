@@ -1,9 +1,10 @@
 (function() {
   'use strict';
   var app = angular.module('donup');
-  app.controller('MultiImageCtrl', [ '$scope','ImageService', '$route','$location','$rootScope',
-      function($scope,imageService, $route,$location,$rootScope) {
-          
+  app.controller('MultiImageCtrl', [ '$scope','ImageService', '$route','$location','$cookies','$rootScope',
+      function($scope,imageService, $route,$location,$cookies,$rootScope) {
+            $rootScope.loggedInUserToken=$cookies.get('usertoken');
+        $rootScope.loggedInUsername=$cookies.get('username');
           $scope.imageList=[];
           $scope.imgtn='';
            $scope.view='';

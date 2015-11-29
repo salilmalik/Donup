@@ -2,9 +2,11 @@
   'use strict';
 
   var app = angular.module('donup');
-  app.controller('ChangePasswordCtrl', [ '$scope', '$cookies', 'UserService',
+  app.controller('ChangePasswordCtrl', [ '$scope', '$rootScope','$cookies', 'UserService',
       '$location', controller ]);
-  function controller($scope, $cookies, userService, $location) {
+  function controller($scope, $rootScope , $cookies, userService, $location) {
+      $rootScope.loggedInUserToken=$cookies.get('usertoken');
+    $rootScope.loggedInUsername=$cookies.get('username');
     $scope.user = {};
     $scope.user.password = {};
     $scope.changeMyPassword = function() {

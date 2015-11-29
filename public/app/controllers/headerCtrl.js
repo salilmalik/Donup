@@ -5,8 +5,10 @@
 	app.controller('HeaderCtrl', [ '$scope', '$cookies', '$rootScope',
 			controller ]);
 	function controller($scope, $cookies, $rootScope) {
+		if($cookies.get('userId')===undefined){
 		$rootScope.loggedInUsername = $cookies.put('username', undefined);
 		$rootScope.loggedInUserToken = $cookies.put('usertoken', undefined);
+	}
 		$scope.logoutUser = function() {
 			$cookies.put('username', undefined);
 			$cookies.put('username', undefined);
