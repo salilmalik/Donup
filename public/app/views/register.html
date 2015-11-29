@@ -63,7 +63,7 @@
                     type="password" name="confirmPassword" id="confirmPassword"
                      placeholder="Re-enter Password"
                     class="form-control" ng-model="user.confirmPassword"
-                    equals="{{user.password}}" required /> <span
+                    compare-to="user.password" required /> <span
                     ng-show="registerForm.confirmPassword.$dirty && registerForm.confirmPassword.$error.required"
                     class="help-block">Passwords don't match.</span>
                 </div>
