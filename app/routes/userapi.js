@@ -425,6 +425,7 @@ module.exports = function(app, express) {
 		    User.findById(req.params.id, function (err, user) {
 	        if (err)
 	            res.send(err);
+	        if(typeof user === "undefined"){
 	        user.points = user.points + 1;
 	        // save the updated image info
 	        user.save(function (err) {
@@ -436,6 +437,7 @@ module.exports = function(app, express) {
 	                returnCode: '1'
 	            });
 	        });
+	    }
 	    });
 	});
 
