@@ -421,12 +421,14 @@ module.exports = function(app, express) {
 
     apiRouter.route('/user/:id')
     // update the points
+
 	.put(function (req, res) {
 		    User.findById(req.params.id, function (err, user) {
 	        if (err)
 	            res.send(err);
-	        if(user === "undefined"){
-	        	
+	        if(user === undefined){
+
+	        }else{
 	        user.points = user.points + 1;
 	        // save the updated image info
 	        user.save(function (err) {

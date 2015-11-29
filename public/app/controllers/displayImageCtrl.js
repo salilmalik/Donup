@@ -5,22 +5,25 @@
       '$scope',
       'ImageService',
       '$location',
-      '$cookies',
       '$routeParams',
       '$route',
-      function($scope, imageService, $location, $routeParams, $route) {
+      '$cookies',
+      '$rootScope',
+      function($scope, imageService, $location, $routeParams, $route,$cookies,$rootScope) {
+        $rootScope.loggedInUserToken=$cookies.get('usertoken');
+        $rootScope.loggedInUsername=$cookies.get('username');
         $scope.image='';
         displayImage();
         function displayImage() {
           $scope.dataLoading = true;
-          imageService.getImage($route.param).success(function(data) {
+          imageService.getImage($routeParams.param).success(function(data) {
             $scope.image = data;
             $scope.img = $scope.image.img.substring(8);
             $scope.imgtn = $scope.image.imgtn.substring(8);
           });
         }
         $scope.doThis = function() {
-          imageService.updatePoints($route.param).success(
+          imageService.updatePoints($routeParams.param).success(
               function(data) {
               });
 		      imageService.updateUserPoints($scope.image.userID).success(
