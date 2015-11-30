@@ -7,13 +7,14 @@ var async = require('async');
 var crypto = require("crypto");
 var nodemailer = require('nodemailer');
 var mongoose = require('mongoose');
+logger = require( '../logger/logger.js' );
 // super secret for creating tokens
 var superSecret = config.secret;
 
 module.exports = function(app, express) {
-
+	logger.warn( 'your warning' );
 	var apiRouter = express.Router();
-
+	logger.debug( 'your debug statement' );
 
 	// route to authenticate a user
 	apiRouter
@@ -22,12 +23,14 @@ module.exports = function(app, express) {
 					function(req, res) {
 						// Validating the user information
 						var validate = userValidations.validateLogin(req);
-						console.log("validate: " + validate);
-						/*
-						 * if (validate != 'LOGIN VALIDATED') {
-						 * console.log("OUT"); res.json(validate); }
-						 */
-						validate = 'LOGIN VALIDATED';
+					
+						
+						 if (validate != 'LOGIN VALIDATED') {
+						  return res.json({success : false,
+										message : validate,
+										returnCode : '100'
+							});
+						}
 						if (validate === 'LOGIN VALIDATED') {
 							User
 									.findOne({
@@ -104,12 +107,12 @@ module.exports = function(app, express) {
 					function(req, res) {
 						// Validating the user information
 						var validate = userValidations.validateRegister(req);
-						console.log("VALIDATION" + validate);
-						/*
-						 * if (validate != 'REGISTER VALIDATED') {
-						 * console.log("OUT"); res.json(validate); }
-						 */
-						validate = 'REGISTER VALIDATED';
+						if (validate != 'REGISTER VALIDATED') {
+						  return res.json({success : false,
+										message : validate,
+										returnCode : '100'
+														});
+						}
 						if (validate === 'REGISTER VALIDATED') {
 							var user = new User(); // create a new instance of
 							// the User

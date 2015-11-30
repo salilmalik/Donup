@@ -9,6 +9,10 @@
 		$rootScope.loggedInUsername = $cookies.put('username', undefined);
 		$rootScope.loggedInUserToken = $cookies.put('usertoken', undefined);
 	}
+	 $scope.isCollapsed = true;
+    $scope.$on('$routeChangeSuccess', function () {
+        $scope.isCollapsed = true;
+    });
 		$scope.logoutUser = function() {
 			$cookies.put('username', undefined);
 			$cookies.put('username', undefined);
