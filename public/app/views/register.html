@@ -7,7 +7,7 @@
             role="form">
             <fieldset>
             <div class="form-group"
-                ng-class="{ 'has-error': registerForm.name.$dirty && registerForm.name.$invalid && registerForm.name.$touched}">
+                ng-class="{ 'has-error': registerForm.name.$dirty && registerForm.name.$invalid && registerForm.name.$touched,'has-success': registerForm.name.$valid && registerForm.name.$touched}">
                 <label for="name" class="col-lg-2 control-label">Name:</label>
                 <div class="col-lg-10">
                 <input type="text" name="name"
@@ -22,7 +22,7 @@
                 </div>
             </div>
             <div class="form-group"
-                ng-class="{ 'has-error': registerForm.username.$dirty && registerForm.username.$invalid && registerForm.username.$touched}" >
+                ng-class="{ 'has-error': registerForm.username.$dirty && registerForm.username.$invalid && registerForm.username.$touched,'has-success': registerForm.username.$valid && registerForm.username.$touched}" >
                 <label for="username" class="col-lg-2 control-label">Email ID:</label>
                 <div class="col-lg-10">
                 <input type="email"
@@ -40,7 +40,7 @@
                 </div>
             </div>
             <div class="form-group"
-                ng-class="{ 'has-error': registerForm.password.$dirty && registerForm.password.$invalid && registerForm.password.$touched}">
+                ng-class="{ 'has-error': registerForm.password.$dirty && registerForm.password.$invalid && registerForm.password.$touched,'has-success': registerForm.password.$valid && registerForm.password.$touched}">
                 <label for="password" class="col-lg-2 control-label">Password:</label>
                 <div class="col-lg-10">
                 <input type="password"
@@ -56,7 +56,7 @@
                 </div> 
             </div>
             <div class="form-group"
-                ng-class="{ 'has-error': registerForm.confirmPassword.$dirty && registerForm.confirmPassword.$invalid && registerForm.confirmPassword.$touched}">
+                ng-class="{ 'has-error': registerForm.confirmPassword.$dirty && registerForm.confirmPassword.$invalid && registerForm.confirmPassword.$touched,'has-success': registerForm.confirmPassword.$valid && registerForm.confirmPassword.$touched}">
                 <label for="password" class="col-lg-2 control-label">Confirm Password:</label>
                 <div class="col-lg-10">
                 <input
