@@ -7,56 +7,56 @@
             role="form">
             <fieldset>
             <div class="form-group"
-                ng-class="{ 'has-error': registerForm.name.$dirty && registerForm.name.$error.required }">
+                ng-class="{ 'has-error': registerForm.name.$dirty && registerForm.name.$invalid && registerForm.name.$touched}">
                 <label for="name" class="col-lg-2 control-label">Name:</label>
                 <div class="col-lg-10">
                 <input type="text" name="name"
                     id="name" placeholder="Full Name" class="form-control" ng-model="user.name" required
                     ng-minlength="2" ng-maxlength="100" /> <span
-                    ng-show="registerForm.name.$dirty && registerForm.name.$error.required"
+                    ng-show="registerForm.name.$dirty && registerForm.name.$error.required && registerForm.name.$touched"
                     class="help-block">Name is required.</span> <span
-                    ng-show="registerForm.name.$error.minlength" class="help-block">Name
-                    is too short.</span> <span ng-show="registerForm.name.$error.maxlength"
+                    ng-show="registerForm.name.$error.minlength && registerForm.name.$touched" class="help-block">Name
+                    is too short.</span> <span ng-show="registerForm.name.$error.maxlength && registerForm.name.$touched"
                     class="help-block">Name is too long. It should be less than
                     100 characters.</span>
                 </div>
             </div>
             <div class="form-group"
-                ng-class="{ 'has-error': registerForm.username.$dirty && registerForm.username.$error.required }">
+                ng-class="{ 'has-error': registerForm.username.$dirty && registerForm.username.$invalid && registerForm.username.$touched}" >
                 <label for="username" class="col-lg-2 control-label">Email ID:</label>
                 <div class="col-lg-10">
                 <input type="email"
                     name="username" id="username" placeholder="Email ID/Username" class="form-control"
                     ng-model="user.username" required ng-minlength="5"
                     ng-maxlength="50" /> <span
-                    ng-show="registerForm.username.$dirty && registerForm.username.$error.required"
+                    ng-show="registerForm.username.$dirty && registerForm.username.$error.required && registerForm.username.$touched"
                     class="help-block">Username is required.</span> <span
-                    ng-show="registerForm.username.$invalid && !registerForm.username.$pristine"
+                    ng-show="registerForm.username.$invalid && !registerForm.username.$pristine && registerForm.username.$touched"
                     class="help-block">Enter a valid email.</span> <span
-                    ng-show="registerForm.username.$error.minlength" class="help-block">Username
+                    ng-show="registerForm.username.$error.minlength && registerForm.username.$touched" class="help-block">Username
                     is too short.</span> <span
-                    ng-show="registerForm.username.$error.maxlength" class="help-block">Username
+                    ng-show="registerForm.username.$error.maxlength && registerForm.username.$touched" class="help-block">Username
                     is too long. It should be less than 50 characters</span>
                 </div>
             </div>
             <div class="form-group"
-                ng-class="{ 'has-error': registerForm.password.$dirty && registerForm.password.$error.required }">
+                ng-class="{ 'has-error': registerForm.password.$dirty && registerForm.password.$invalid && registerForm.password.$touched}">
                 <label for="password" class="col-lg-2 control-label">Password:</label>
                 <div class="col-lg-10">
                 <input type="password"
                     name="password" id="password" placeholder="Password" class="form-control"
                     ng-model="user.password" equals="{{user.confirmPassword}}" required
                     ng-minlength="8" ng-maxlength="20" /> <span
-                    ng-show="registerForm.password.$dirty && registerForm.password.$error.required"
+                    ng-show="registerForm.password.$dirty && registerForm.password.$error.required && registerForm.password.$touched"
                     class="help-block">Password is required.</span> <span
-                    ng-show="registerForm.password.$error.minlength" class="help-block">Password
+                    ng-show="registerForm.password.$error.minlength && registerForm.password.$touched" class="help-block">Password
                     is too short.</span> <span
-                    ng-show="registerForm.password.$error.maxlength" class="help-block">Password
+                    ng-show="registerForm.password.$error.maxlength && registerForm.password.$touched" class="help-block">Password
                     is too long. It should be less than 20 characters.</span>
                 </div> 
             </div>
             <div class="form-group"
-                ng-class="{ 'has-error': registerForm.confirmPassword.$dirty && registerForm.password.$error.required }">
+                ng-class="{ 'has-error': registerForm.confirmPassword.$dirty && registerForm.confirmPassword.$invalid && registerForm.confirmPassword.$touched}">
                 <label for="password" class="col-lg-2 control-label">Confirm Password:</label>
                 <div class="col-lg-10">
                 <input
@@ -64,7 +64,7 @@
                      placeholder="Re-enter Password"
                     class="form-control" ng-model="user.confirmPassword"
                     compare-to="user.password" required /> <span
-                    ng-show="registerForm.confirmPassword.$dirty && registerForm.confirmPassword.$error.required"
+                    ng-show="registerForm.confirmPassword.$dirty && registerForm.confirmPassword.$invalid && registerForm.confirmPassword.$touched"
                     class="help-block">Passwords don't match.</span>
                 </div>
             </div>

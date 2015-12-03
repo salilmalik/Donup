@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var bcrypt = require('bcrypt-nodejs');
+logger = require( '../logger/logger.js' );
 
 // user schema
 var UserSchema = new Schema({
@@ -31,7 +32,8 @@ UserSchema.pre('save', function(next) {
 	// hash the password only if the password has been changed or user is new
 	if (!user.isModified('password'))
 		return next();
-
+	logger.debug('user.password'+user);
+	logger.warn('user.password'+user.password);
 	// generate the hash
 	bcrypt.hash(user.password, null, null, function(err, hash) {
 		if (err)

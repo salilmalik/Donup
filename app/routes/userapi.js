@@ -12,9 +12,7 @@ logger = require( '../logger/logger.js' );
 var superSecret = config.secret;
 
 module.exports = function(app, express) {
-	logger.warn( 'your warning' );
 	var apiRouter = express.Router();
-	logger.debug( 'your debug statement' );
 
 	// route to authenticate a user
 	apiRouter
