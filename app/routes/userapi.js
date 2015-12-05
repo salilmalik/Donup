@@ -7,7 +7,7 @@ var async = require('async');
 var crypto = require("crypto");
 var nodemailer = require('nodemailer');
 var mongoose = require('mongoose');
-logger = require( '../logger/logger.js' );
+logger = require('../logger/logger.js');
 // super secret for creating tokens
 var superSecret = config.secret;
 
@@ -19,14 +19,15 @@ module.exports = function(app, express) {
 			.post(
 					'/login',
 					function(req, res) {
+						logger.debug('apiRouter /login post started');
 						// Validating the user information
 						var validate = userValidations.validateLogin(req);
-					
-						
-						 if (validate != 'LOGIN VALIDATED') {
-						  return res.json({success : false,
-										message : validate,
-										returnCode : '100'
+
+						if (validate != 'LOGIN VALIDATED') {
+							return res.json({
+								success : false,
+								message : validate,
+								returnCode : '100'
 							});
 						}
 						if (validate === 'LOGIN VALIDATED') {
@@ -95,6 +96,7 @@ module.exports = function(app, express) {
 												}
 
 											});
+							logger.debug('apiRouter /login ended');
 						}
 					});
 
@@ -103,13 +105,15 @@ module.exports = function(app, express) {
 			// Create a user
 			.post(
 					function(req, res) {
+						logger.debug('apiRouter /user post started');
 						// Validating the user information
 						var validate = userValidations.validateRegister(req);
 						if (validate != 'REGISTER VALIDATED') {
-						  return res.json({success : false,
-										message : validate,
-										returnCode : '100'
-														});
+							return res.json({
+								success : false,
+								message : validate,
+								returnCode : '100'
+							});
 						}
 						if (validate === 'REGISTER VALIDATED') {
 							var user = new User(); // create a new instance of
@@ -148,6 +152,7 @@ module.exports = function(app, express) {
 										});
 									});
 							confirmEmail(req, res);
+							logger.debug('apiRouter /user ended');
 						}
 					})
 
@@ -158,7 +163,7 @@ module.exports = function(app, express) {
 	 */
 
 	function confirmEmail(req, res) {
-		console.log('confirm email called');
+		logger.debug('confirmEmail started');
 		async
 				.waterfall(
 						[
@@ -231,12 +236,14 @@ module.exports = function(app, express) {
 							}
 							;
 						});
+		logger.debug('confirmEmail ended');
 	}
 	;
 	apiRouter
 			.post(
 					'/forgotPassword',
 					function(req, res, next) {
+						logger.debug('apiRouter /forgotPassword post started');
 						async
 								.waterfall(
 										[
@@ -337,9 +344,11 @@ module.exports = function(app, express) {
 												return next(err);
 											}
 										});
+						logger.debug('apiRouter /forgotPassword post started');
 					});
 
 	apiRouter.post('/resetPassword', function(req, res, next) {
+		logger.debug('apiRouter /resetPassword post started');
 		User.findOne({
 			resetPasswordToken : req.body.resetPasswordToken
 		}).select('username').exec(function(err, user) {
@@ -378,9 +387,11 @@ module.exports = function(app, express) {
 				});
 			}
 		});
+		logger.debug('apiRouter /resetPassword post ended');
 	});
 
 	apiRouter.post('/confirmEmailLinks', function(req, res, next) {
+		logger.debug('apiRouter /confirmEmailLinks post started');
 		User.findOne({
 			confirmEmailToken : req.body.confirmEmailURLLink
 		}).select('username').exec(function(err, user) {
@@ -417,38 +428,40 @@ module.exports = function(app, express) {
 
 			}
 		});
+		logger.debug('apiRouter /confirmEmailLinks post ended');
 	});
 
+	apiRouter.route('/user/:id')
+	// update the points
 
-    apiRouter.route('/user/:id')
-    // update the points
+	.put(function(req, res) {
+		logger.debug('apiRouter /user/:id put started');
+		User.findById(req.params.id, function(err, user) {
+			if (err)
+				res.send(err);
+			if (user === undefined) {
 
-	.put(function (req, res) {
-		    User.findById(req.params.id, function (err, user) {
-	        if (err)
-	            res.send(err);
-	        if(user === undefined){
-
-	        }else{
-	        user.points = user.points + 1;
-	        // save the updated image info
-	        user.save(function (err) {
-	            if (err)
-	                res.send(err);
-	            res.json({
-	                success: true,
-	                message: 'Points updated. ',
-	                returnCode: '1'
-	            });
-	        });
-	    }
-	    });
+			} else {
+				user.points = user.points + 1;
+				// save the updated image info
+				user.save(function(err) {
+					if (err)
+						res.send(err);
+					res.json({
+						success : true,
+						message : 'Points updated. ',
+						returnCode : '1'
+					});
+				});
+			}
+		});
+		logger.debug('apiRouter /user/:id put ended');
 	});
 
 	// route middleware to verify a token
 	apiRouter.use(function(req, res, next) {
 		// check header or url parameters or post parameters for token
-
+		logger.debug('middleware started');
 		var token = req.body.token || req.query.token
 				|| req.headers['x-access-token'];
 
@@ -485,11 +498,13 @@ module.exports = function(app, express) {
 			});
 
 		}
+		logger.debug('middleware ended');
 	});
 
 	apiRouter.route('/user/:user_id')
 	// get the user with that id
 	.get(function(req, res) {
+		logger.debug('apiRouter /user/:user_id get started');
 		User.findById(req.params.user_id, function(err, user) {
 			if (err)
 				res.send(err);
@@ -497,11 +512,12 @@ module.exports = function(app, express) {
 			// return that user
 			res.json(user);
 		});
+		logger.debug('apiRouter /user/:user_id get ended');
 	})
 
 	// update the user with this id
 	.put(function(req, res) {
-		console.log("PUT CALLED");
+		logger.debug('apiRouter /user/:user_id put started');
 		User.findById(req.params.user_id, function(err, user) {
 
 			if (err)
@@ -529,9 +545,11 @@ module.exports = function(app, express) {
 			});
 
 		});
+		logger.debug('apiRouter /user/:user_id put ended');
 	})
 
 	apiRouter.post('/changePassword', function(req, res, next) {
+		logger.debug('apiRouter /changePassword post started');
 		User.findById(req.body.userID).select('name username password').exec(
 				function(err, user) {
 					if (err)
@@ -570,6 +588,7 @@ module.exports = function(app, express) {
 						}
 					}
 				});
+		logger.debug('apiRouter /changePassword post ended');
 	});
 
 	/*

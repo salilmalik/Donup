@@ -6,8 +6,7 @@
 	function controller($scope, $rootScope, $cookies) {
 		$rootScope.loggedInUserToken=$cookies.get('usertoken');
 		$rootScope.loggedInUsername=$cookies.get('username');
-if($cookies.get('userId')===undefined){
-	console.log('A');
+		if($cookies.get('userId')===undefined){
 		$rootScope.loggedInUsername = $cookies.put('username', undefined);
 		$rootScope.loggedInUserToken = $cookies.put('usertoken', undefined);
 	}

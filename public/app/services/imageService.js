@@ -8,7 +8,6 @@ app.factory('ImageService', [ '$http', function($http) {
         updateUserPoints:updateUserPoints
     };
     function getImage(imageId) {
-        console.log("GET IMAGE CALLED");
         return $http({
             method : 'GET',
             url : '/api/image/' + imageId
