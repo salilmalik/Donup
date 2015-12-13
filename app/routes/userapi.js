@@ -20,6 +20,7 @@ module.exports = function(app, express) {
 					'/login',
 					function(req, res) {
 						logger.debug('apiRouter /login post started');
+					console.log('BODY'+JSON.stringify(req.body));
 						// Validating the user information
 						var validate = userValidations.validateLogin(req);
 
